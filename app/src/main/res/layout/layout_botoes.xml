@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:weightSum="5">
+
+        <TableRow
+            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:weightSum="3">
+
+            <Button
+                android:id="@+id/buttonNum1"
+                style="@style/BotaoNumerico"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/texto_num1" />
+
+            <Button
+                android:id="@+id/buttonNum2"
+                style="@style/BotaoNumerico"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/texto_num2" />
+
+            <Button
+                android:id="@+id/buttonNum3"
+                style="@style/BotaoNumerico"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/texto_num3" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:weightSum="3">
+
+            <Button
+                android:id="@+id/buttonNum4"
+                style="@style/BotaoNumerico"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/texto_num4" />
+
+            <Button
+                android:id="@+id/buttonNum5"
+                style="@style/BotaoNumerico"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/texto_num5" />
+
+            <Button
+                android:id="@+id/buttonNum6"
+                style="@style/BotaoNumerico"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/texto_num6" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:weightSum="3">
+
+            <Button
+                android:id="@+id/buttonNum7"
+                style="@style/BotaoNumerico"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/texto_num7" />
+
+            <Button
+                android:id="@+id/buttonNum8"
+                style="@style/BotaoNumerico"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/texto_num8" />
+
+            <Button
+                android:id="@+id/buttonNum9"
+                style="@style/BotaoNumerico"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/texto_num9" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:weightSum="3">
+
+            <Button
+                android:id="@+id/buttonCancPadrao"
+                style="@style/BotaoNumOkCanc"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/texto_padrao_canc" />
+
+            <Button
+                android:id="@+id/buttonNum0"
+                style="@style/BotaoNumerico"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/texto_num0" />
+
+            <Button
+                android:id="@+id/buttonOkPadrao"
+                style="@style/BotaoNumOkCanc"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/texto_padrao_ok" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:layout_weight="1">
+
+            <Button
+                android:id="@+id/buttonAtualPadrao"
+                style="@style/BotaoNumOkCanc"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/texto_atualizar_bd" />
+
+        </TableRow>
+
+    </TableLayout>
+
+</TableLayout>
