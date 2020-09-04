@@ -19,7 +19,6 @@ public class AdapterList extends BaseAdapter {
     private LayoutInflater layoutInflater;
 
     public AdapterList(Context context, ArrayList<String> itens) {
-        // TODO Auto-generated constructor stub
         this.itens = itens;
         layoutInflater = LayoutInflater.from(context);
     }

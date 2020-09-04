@@ -2,7 +2,6 @@ package br.com.usinasantafe.pci;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +11,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.usinasantafe.pci.to.estatica.OSTO;
-import br.com.usinasantafe.pci.to.estatica.PlantaTO;
+import br.com.usinasantafe.pci.model.bean.estatica.OSBean;
+import br.com.usinasantafe.pci.model.bean.estatica.PlantaBean;
 
 public class AdapterListOS extends BaseAdapter {
 

@@ -3,14 +3,11 @@ package br.com.usinasantafe.pci;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
 import java.util.List;
-
-import br.com.usinasantafe.pci.to.estatica.FuncTO;
 
 
 public class FuncVerOSActivity extends ActivityGeneric {
@@ -31,7 +28,6 @@ public class FuncVerOSActivity extends ActivityGeneric {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
 
                 if(!editTextPadrao.getText().toString().equals("")) {
 
@@ -59,7 +55,6 @@ public class FuncVerOSActivity extends ActivityGeneric {
                         alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                // TODO Auto-generated method stub
                                 editTextPadrao.setText("");
                             }
                         });
@@ -76,7 +71,6 @@ public class FuncVerOSActivity extends ActivityGeneric {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 if (editTextPadrao.getText().toString().length() > 0) {
                     editTextPadrao.setText(editTextPadrao.getText().toString().substring(0, editTextPadrao.getText().toString().length() - 1));
                 }
@@ -86,7 +80,7 @@ public class FuncVerOSActivity extends ActivityGeneric {
     }
 
     public void onBackPressed()  {
-        Intent it = new Intent(  FuncVerOSActivity.this, PrincipalActivity.class);
+        Intent it = new Intent(  FuncVerOSActivity.this, MenuInicialActivity.class);
         startActivity(it);
     }
 

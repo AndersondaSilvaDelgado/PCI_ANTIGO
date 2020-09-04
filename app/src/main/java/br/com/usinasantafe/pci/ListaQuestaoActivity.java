@@ -2,7 +2,6 @@ package br.com.usinasantafe.pci;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -13,16 +12,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.usinasantafe.pci.bo.ManipDadosVerif;
-import br.com.usinasantafe.pci.pst.EspecificaPesquisa;
-import br.com.usinasantafe.pci.to.estatica.FuncTO;
-import br.com.usinasantafe.pci.to.estatica.ItemTO;
-import br.com.usinasantafe.pci.to.estatica.OSTO;
-import br.com.usinasantafe.pci.to.estatica.PlantaTO;
-import br.com.usinasantafe.pci.to.estatica.ServicoTO;
-import br.com.usinasantafe.pci.to.variavel.CabecTO;
-import br.com.usinasantafe.pci.to.variavel.PlantaCabecTO;
-import br.com.usinasantafe.pci.to.variavel.RespItemTO;
+import br.com.usinasantafe.pci.util.VerifDadosServ;
+import br.com.usinasantafe.pci.model.pst.EspecificaPesquisa;
 
 public class ListaQuestaoActivity extends ActivityGeneric {
 
@@ -133,7 +124,7 @@ public class ListaQuestaoActivity extends ActivityGeneric {
             progressBar.setMessage("Atualizando Plantas...");
             progressBar.show();
 
-            ManipDadosVerif.getInstance().verDados("", "Planta"
+            VerifDadosServ.getInstance().verDados("", "Planta"
                     , ListaQuestaoActivity.this, ListaQuestaoActivity.class, progressBar);
         }
 
@@ -155,7 +146,7 @@ public class ListaQuestaoActivity extends ActivityGeneric {
             progressBar.setMessage("Atualizando Itens...");
             progressBar.show();
 
-            ManipDadosVerif.getInstance().verDados("", "Servico"
+            VerifDadosServ.getInstance().verDados("", "Servico"
                     , ListaQuestaoActivity.this, ListaQuestaoActivity.class, progressBar);
         }
 
@@ -167,7 +158,6 @@ public class ListaQuestaoActivity extends ActivityGeneric {
             @Override
             public void onItemClick(AdapterView<?> l, View v, int position,
                                     long id) {
-                // TODO Auto-generated method stub
 
                 pciContext.setItemTO((ItemTO) itemList.get(position));
 
@@ -204,7 +194,6 @@ public class ListaQuestaoActivity extends ActivityGeneric {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
 
                 Intent it = new Intent(ListaQuestaoActivity.this, ListaPlantaActivity.class);
                 startActivity(it);

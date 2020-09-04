@@ -2,7 +2,6 @@ package br.com.usinasantafe.pci;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +11,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.usinasantafe.pci.to.estatica.PlantaTO;
-import br.com.usinasantafe.pci.to.variavel.PlantaCabecTO;
+import br.com.usinasantafe.pci.model.bean.estatica.PlantaBean;
+import br.com.usinasantafe.pci.model.bean.variavel.PlantaCabecBean;
 
 /**
  * Created by anderson on 08/03/2018.
@@ -26,7 +25,6 @@ public class AdapterListPlanta extends BaseAdapter {
     private List resp;
 
     public AdapterListPlanta(Context context, ArrayList itens) {
-        // TODO Auto-generated constructor stub
         this.itens = itens;
         layoutInflater = LayoutInflater.from(context);
 

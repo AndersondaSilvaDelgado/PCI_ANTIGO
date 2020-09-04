@@ -2,7 +2,6 @@ package br.com.usinasantafe.pci;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -10,11 +9,11 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.usinasantafe.pci.pst.EspecificaPesquisa;
-import br.com.usinasantafe.pci.to.estatica.ItemTO;
-import br.com.usinasantafe.pci.to.estatica.ServicoTO;
-import br.com.usinasantafe.pci.to.variavel.CabecTO;
-import br.com.usinasantafe.pci.to.variavel.RespItemTO;
+import br.com.usinasantafe.pci.model.pst.EspecificaPesquisa;
+import br.com.usinasantafe.pci.model.bean.estatica.ItemBean;
+import br.com.usinasantafe.pci.model.bean.estatica.ServicoBean;
+import br.com.usinasantafe.pci.model.bean.variavel.CabecBean;
+import br.com.usinasantafe.pci.model.bean.variavel.RespItemBean;
 
 public class DescricaoQuestaoActivity extends ActivityGeneric {
 
@@ -83,7 +82,6 @@ public class DescricaoQuestaoActivity extends ActivityGeneric {
         buttonEditarDescrQuestao.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
 
                 Intent it = new Intent( DescricaoQuestaoActivity.this, QuestaoActivity.class);
                 startActivity(it);
@@ -94,7 +92,6 @@ public class DescricaoQuestaoActivity extends ActivityGeneric {
         buttonCancDescrQuestao.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 Intent it = new Intent(DescricaoQuestaoActivity.this, ListaQuestaoActivity.class);
                 startActivity(it);
             }

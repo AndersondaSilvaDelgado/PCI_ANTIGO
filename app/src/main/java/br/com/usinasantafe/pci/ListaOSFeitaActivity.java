@@ -1,7 +1,6 @@
 package br.com.usinasantafe.pci;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -9,10 +8,6 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import br.com.usinasantafe.pci.pst.EspecificaPesquisa;
-import br.com.usinasantafe.pci.to.variavel.CabecTO;
-import br.com.usinasantafe.pci.to.variavel.OSFeitaTO;
 
 public class ListaOSFeitaActivity extends ActivityGeneric {
 
@@ -50,8 +45,7 @@ public class ListaOSFeitaActivity extends ActivityGeneric {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
-                Intent it = new Intent( ListaOSFeitaActivity.this, PrincipalActivity.class);
+                Intent it = new Intent( ListaOSFeitaActivity.this, MenuInicialActivity.class);
                 startActivity(it);
             }
         });

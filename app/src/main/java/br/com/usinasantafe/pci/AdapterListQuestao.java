@@ -2,7 +2,6 @@ package br.com.usinasantafe.pci;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,11 +9,6 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import java.util.List;
-
-import br.com.usinasantafe.pci.to.estatica.ComponenteTO;
-import br.com.usinasantafe.pci.to.estatica.ItemTO;
-import br.com.usinasantafe.pci.to.estatica.ServicoTO;
-import br.com.usinasantafe.pci.to.variavel.RespItemTO;
 
 /**
  * Created by anderson on 08/03/2018.
@@ -26,7 +20,6 @@ public class AdapterListQuestao extends BaseAdapter {
     private LayoutInflater layoutInflater;
 
     public AdapterListQuestao(Context context, List itens) {
-        // TODO Auto-generated constructor stub
         this.itens = itens;
         layoutInflater = LayoutInflater.from(context);
     }

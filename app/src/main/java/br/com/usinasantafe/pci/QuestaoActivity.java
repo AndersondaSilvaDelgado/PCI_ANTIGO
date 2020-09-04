@@ -9,13 +9,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.usinasantafe.pci.bo.Tempo;
-import br.com.usinasantafe.pci.pst.EspecificaPesquisa;
-import br.com.usinasantafe.pci.to.estatica.ComponenteTO;
-import br.com.usinasantafe.pci.to.estatica.ItemTO;
-import br.com.usinasantafe.pci.to.estatica.ServicoTO;
-import br.com.usinasantafe.pci.to.variavel.CabecTO;
-import br.com.usinasantafe.pci.to.variavel.RespItemTO;
+import br.com.usinasantafe.pci.util.Tempo;
+import br.com.usinasantafe.pci.model.pst.EspecificaPesquisa;
 
 public class QuestaoActivity extends ActivityGeneric {
 
@@ -58,7 +53,6 @@ public class QuestaoActivity extends ActivityGeneric {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 Intent it = new Intent(QuestaoActivity.this, ListaQuestaoActivity.class);
                 startActivity(it);
                 finish();
@@ -69,7 +63,6 @@ public class QuestaoActivity extends ActivityGeneric {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
 
                 RespItemTO respItemTO = new RespItemTO();
                 ArrayList itemArrayList = new ArrayList();
@@ -122,7 +115,6 @@ public class QuestaoActivity extends ActivityGeneric {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 Intent it = new Intent(QuestaoActivity.this, ObsQuestaoActivity.class);
                 startActivity(it);
                 finish();

@@ -1,6 +1,5 @@
 package br.com.usinasantafe.pci;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -8,26 +7,24 @@ import android.widget.EditText;
 
 import com.j256.ormlite.android.apptools.OrmLiteBaseActivity;
 
-import br.com.usinasantafe.pci.pst.DatabaseHelper;
+import br.com.usinasantafe.pci.model.pst.DatabaseHelper;
 
 public class ActivityGeneric extends OrmLiteBaseActivity<DatabaseHelper> {
 
 	public EditText editTextPadrao;
 	
 	public ActivityGeneric() {
-		// TODO Auto-generated constructor stub
 	}
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		getHelper();
 	}
 	
 	@Override
 	protected void onResume() {
-		// TODO Auto-generated method stub
+
 		super.onResume();
 		
 		if((EditText) findViewById(R.id.editTextPadrao) != null){

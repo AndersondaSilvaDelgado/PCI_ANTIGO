@@ -4,9 +4,11 @@ import android.app.Application;
 
 import java.util.ArrayList;
 
-import br.com.usinasantafe.pci.to.estatica.ItemTO;
-import br.com.usinasantafe.pci.to.variavel.CabecTO;
-import br.com.usinasantafe.pci.to.variavel.RespItemTO;
+import br.com.usinasantafe.pci.control.CheckListCTR;
+import br.com.usinasantafe.pci.control.ConfigCTR;
+import br.com.usinasantafe.pci.model.bean.estatica.ItemBean;
+import br.com.usinasantafe.pci.model.bean.variavel.CabecBean;
+import br.com.usinasantafe.pci.model.bean.variavel.RespItemBean;
 
 /**
  * Created by anderson on 30/10/2015.
@@ -17,10 +19,24 @@ public class PCIContext extends Application {
     private ArrayList<RespItemTO> listItemQuestoes;
     private ItemTO itemTO;
     private Long funcVer;
+    private ConfigCTR configCTR;
+    private CheckListCTR checkListCTR;
 
-    public static String versaoAplic = "1.0";
+    public static String versaoAplic = "2.00";
 
     public PCIContext() {
+    }
+
+    public ConfigCTR getConfigCTR() {
+        if(configCTR == null)
+            configCTR = new ConfigCTR();
+        return configCTR;
+    }
+
+    public CheckListCTR getCheckListCTR() {
+        if(checkListCTR == null)
+            checkListCTR = new CheckListCTR();
+        return checkListCTR;
     }
 
     public CabecTO getCabecTO() {
@@ -28,6 +44,8 @@ public class PCIContext extends Application {
             cabecTO = new CabecTO();
         return cabecTO;
     }
+
+
 
     public void setCabecTO(CabecTO cabecTO) {
         this.cabecTO = cabecTO;

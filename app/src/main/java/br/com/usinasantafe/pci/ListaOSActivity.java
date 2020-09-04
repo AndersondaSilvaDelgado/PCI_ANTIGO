@@ -9,21 +9,12 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
-import com.j256.ormlite.field.DatabaseField;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.usinasantafe.pci.bo.ManipDadosVerif;
-import br.com.usinasantafe.pci.bo.Tempo;
-import br.com.usinasantafe.pci.pst.DatabaseHelper;
-import br.com.usinasantafe.pci.pst.EspecificaPesquisa;
-import br.com.usinasantafe.pci.to.estatica.FuncTO;
-import br.com.usinasantafe.pci.to.estatica.OSTO;
-import br.com.usinasantafe.pci.to.estatica.PlantaTO;
-import br.com.usinasantafe.pci.to.variavel.CabecTO;
-import br.com.usinasantafe.pci.to.variavel.PlantaCabecTO;
-import br.com.usinasantafe.pci.to.variavel.RespItemTO;
+import br.com.usinasantafe.pci.util.VerifDadosServ;
+import br.com.usinasantafe.pci.util.Tempo;
+import br.com.usinasantafe.pci.model.pst.EspecificaPesquisa;
 
 public class ListaOSActivity extends ActivityGeneric {
 
@@ -41,29 +32,13 @@ public class ListaOSActivity extends ActivityGeneric {
 
         pciContext = (PCIContext) getApplication();
 
-        OSTO osTO = new OSTO();
-        List osList = osTO.all();
-
-        boolean verPlanta = false;
-
-        for(int i = 0; i < osList.size(); i++){
-            osTO = (OSTO) osList.get(i);
-            PlantaTO plantaTO = new PlantaTO();
-            List plantaList = plantaTO.get("idPlanta", osTO.getIdPlantaOS());
-            if(plantaList.size() == 0){
-                verPlanta = true;
-            }
-            plantaList.clear();
-        }
-
-        if(verPlanta){
+        if(pciContext.getCheckListCTR().verPlanta()){
             progressBar = new ProgressDialog(ListaOSActivity.this);
             progressBar.setCancelable(true);
             progressBar.setMessage("Atualizando Plantas...");
             progressBar.show();
 
-            ManipDadosVerif.getInstance().verDados("", "Planta"
-                    , ListaOSActivity.this, ListaOSActivity.class, progressBar);
+            pciContext.getCheckListCTR().atualDadosPlanta(ListaOSActivity.this, ListaOSActivity.class, progressBar);
         }
 
         CabecTO cabecTO = new CabecTO();
@@ -114,7 +89,7 @@ public class ListaOSActivity extends ActivityGeneric {
 
                                     ArrayList respItemPesqList = new ArrayList();
                                     EspecificaPesquisa pesquisa = new EspecificaPesquisa();
-                                    pesquisa.setCampo("idCabec");
+                                    pesquisa.setCampo("idCabRespItem");
                                     pesquisa.setValor(cabecTO.getIdCabec());
                                     respItemPesqList.add(pesquisa);
 
@@ -149,7 +124,6 @@ public class ListaOSActivity extends ActivityGeneric {
             }
 
 //            VERIFICAR OS QUE NÃO ENVIOU
-
             for(int i = 0; i < osList.size(); i++) {
                 osTO = (OSTO) osList.get(i);
                 boolean verOS = true;
@@ -187,7 +161,6 @@ public class ListaOSActivity extends ActivityGeneric {
             @Override
             public void onItemClick(AdapterView<?> l, View v, int position,
                                     long id) {
-                // TODO Auto-generated method stub
 
                 OSTO osTO = new OSTO();
                 osTO = (OSTO) osCabList.get(position);
@@ -226,7 +199,7 @@ public class ListaOSActivity extends ActivityGeneric {
                 progressBar.setMessage("Pequisando Item...");
                 progressBar.show();
 
-                ManipDadosVerif.getInstance().verDados(osTO.getIdOS().toString(), "Item"
+                VerifDadosServ.getInstance().verDados(osTO.getIdOS().toString(), "Item"
                         ,   ListaOSActivity.this, ListaPlantaActivity.class, progressBar);
 
                 osCabList.clear();
@@ -239,7 +212,6 @@ public class ListaOSActivity extends ActivityGeneric {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 Intent it = new Intent(ListaOSActivity.this, FuncionarioActivity.class);
                 startActivity(it);
                 osCabList.clear();

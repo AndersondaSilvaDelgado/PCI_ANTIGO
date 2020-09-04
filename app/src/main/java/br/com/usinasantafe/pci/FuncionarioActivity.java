@@ -8,12 +8,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import java.util.List;
-
-import br.com.usinasantafe.pci.bo.ConexaoWeb;
-import br.com.usinasantafe.pci.bo.ManipDadosVerif;
-import br.com.usinasantafe.pci.to.estatica.FuncTO;
-import br.com.usinasantafe.pci.to.variavel.CabecTO;
+import br.com.usinasantafe.pci.model.bean.estatica.FuncBean;
+import br.com.usinasantafe.pci.util.ConexaoWeb;
 
 public class FuncionarioActivity extends ActivityGeneric {
 
@@ -51,8 +47,7 @@ public class FuncionarioActivity extends ActivityGeneric {
                             progressBar.setMessage("Atualizando Colaboradores...");
                             progressBar.show();
 
-                            ManipDadosVerif.getInstance().verDados("", "Funcionario"
-                                    , FuncionarioActivity.this, FuncionarioActivity.class, progressBar);
+                            pciContext.getCheckListCTR().atualDadosFunc(FuncionarioActivity.this, FuncionarioActivity.class, progressBar);
 
                         } else {
 
@@ -91,26 +86,22 @@ public class FuncionarioActivity extends ActivityGeneric {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
 
                 if(!editTextPadrao.getText().toString().equals("")) {
 
                     Long matricFunc = Long.parseLong(editTextPadrao.getText().toString());
 
-                    FuncTO funcTO = new FuncTO();
-                    List listaFuncPesq = funcTO.get("matricFunc", matricFunc);
+                    if(pciContext.getCheckListCTR().verFunc(matricFunc)){
 
-                    if(listaFuncPesq.size() > 0){
-
-                        FuncTO funcTOPesq = (FuncTO) listaFuncPesq.get(0);
-                        pciContext.getCabecTO().setIdFuncCabec(funcTOPesq.getIdFunc());
+                        FuncBean funcBean = pciContext.getCheckListCTR().getFunc(matricFunc);
+                        pciContext.getCheckListCTR().getCabecBean().setIdFuncCabec(funcBean.getIdFunc());
 
                         progressBar = new ProgressDialog(v.getContext());
                         progressBar.setCancelable(true);
                         progressBar.setMessage("Pequisando a OS...");
                         progressBar.show();
 
-                        ManipDadosVerif.getInstance().verDados(funcTOPesq.getIdOficSecaoFunc().toString(), "OS"
+                        pciContext.getCheckListCTR().verOS(funcBean.getIdOficSecaoFunc().toString()
                                 ,  FuncionarioActivity.this, ListaOSActivity.class, progressBar);
 
 
@@ -124,7 +115,6 @@ public class FuncionarioActivity extends ActivityGeneric {
                         alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                // TODO Auto-generated method stub
                                 editTextPadrao.setText("");
                             }
                         });
@@ -142,7 +132,6 @@ public class FuncionarioActivity extends ActivityGeneric {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 if (editTextPadrao.getText().toString().length() > 0) {
                     editTextPadrao.setText(editTextPadrao.getText().toString().substring(0, editTextPadrao.getText().toString().length() - 1));
                 }
@@ -152,7 +141,7 @@ public class FuncionarioActivity extends ActivityGeneric {
     }
 
     public void onBackPressed()  {
-        Intent it = new Intent(FuncionarioActivity.this, PrincipalActivity.class);
+        Intent it = new Intent(FuncionarioActivity.this, MenuInicialActivity.class);
         startActivity(it);
     }
 

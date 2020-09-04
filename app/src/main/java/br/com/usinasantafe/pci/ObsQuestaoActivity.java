@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -14,11 +13,8 @@ import android.widget.EditText;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.usinasantafe.pci.bo.Tempo;
-import br.com.usinasantafe.pci.pst.EspecificaPesquisa;
-import br.com.usinasantafe.pci.to.estatica.ItemTO;
-import br.com.usinasantafe.pci.to.variavel.CabecTO;
-import br.com.usinasantafe.pci.to.variavel.RespItemTO;
+import br.com.usinasantafe.pci.util.Tempo;
+import br.com.usinasantafe.pci.model.pst.EspecificaPesquisa;
 
 public class ObsQuestaoActivity extends ActivityGeneric {
 
@@ -88,7 +84,6 @@ public class ObsQuestaoActivity extends ActivityGeneric {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 Intent it = new Intent(ObsQuestaoActivity.this, QuestaoActivity.class);
                 startActivity(it);
                 finish();
@@ -99,7 +94,6 @@ public class ObsQuestaoActivity extends ActivityGeneric {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
 
                 if(!editTextObservacao.getText().toString().equals("")) {
 

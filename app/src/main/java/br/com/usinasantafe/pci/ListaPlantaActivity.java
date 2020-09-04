@@ -5,7 +5,6 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -15,17 +14,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.usinasantafe.pci.bo.ConexaoWeb;
-import br.com.usinasantafe.pci.bo.ManipDadosEnvio;
-import br.com.usinasantafe.pci.bo.Tempo;
-import br.com.usinasantafe.pci.pst.EspecificaPesquisa;
-import br.com.usinasantafe.pci.to.estatica.FuncTO;
-import br.com.usinasantafe.pci.to.estatica.ItemTO;
-import br.com.usinasantafe.pci.to.estatica.OSTO;
-import br.com.usinasantafe.pci.to.variavel.CabecTO;
-import br.com.usinasantafe.pci.to.variavel.OSFeitaTO;
-import br.com.usinasantafe.pci.to.variavel.PlantaCabecTO;
-import br.com.usinasantafe.pci.to.variavel.RespItemTO;
+import br.com.usinasantafe.pci.util.ConexaoWeb;
+import br.com.usinasantafe.pci.util.EnvioDadosServ;
+import br.com.usinasantafe.pci.util.Tempo;
 
 public class ListaPlantaActivity extends ActivityGeneric {
 
@@ -113,7 +104,6 @@ public class ListaPlantaActivity extends ActivityGeneric {
             @Override
             public void onItemClick(AdapterView<?> l, View v, int position,
                                     long id) {
-                // TODO Auto-generated method stub
 
                 PlantaCabecTO plantaCabecTO = (PlantaCabecTO) plantaList.get(position);
 
@@ -140,7 +130,6 @@ public class ListaPlantaActivity extends ActivityGeneric {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
 
                 if (pciContext.getCabecTO().getStatusCabec() == 0) {
 
@@ -200,11 +189,11 @@ public class ListaPlantaActivity extends ActivityGeneric {
                             progressBar.setMessage("ENVIANDO DADOS...");
                             progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                             progressBar.show();
-                            ManipDadosEnvio.getInstance().envioDadosPrinc(ListaPlantaActivity.this, PrincipalActivity.class, progressBar);
+                            EnvioDadosServ.getInstance().envioDadosPrinc(ListaPlantaActivity.this, MenuInicialActivity.class, progressBar);
 
                         }
                         else{
-                            Intent it = new Intent(ListaPlantaActivity.this, PrincipalActivity.class);
+                            Intent it = new Intent(ListaPlantaActivity.this, MenuInicialActivity.class);
                             startActivity(it);
                         }
 
@@ -238,7 +227,7 @@ public class ListaPlantaActivity extends ActivityGeneric {
                                 progressBar.setMessage("ENVIANDO DADOS...");
                                 progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                                 progressBar.show();
-                                ManipDadosEnvio.getInstance().envioDadosPrinc(ListaPlantaActivity.this, ListaPlantaActivity.class, progressBar);
+                                EnvioDadosServ.getInstance().envioDadosPrinc(ListaPlantaActivity.this, ListaPlantaActivity.class, progressBar);
 
                             }
                             else{
@@ -270,7 +259,6 @@ public class ListaPlantaActivity extends ActivityGeneric {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
 
                 AlertDialog.Builder alerta = new AlertDialog.Builder(  ListaPlantaActivity.this);
                 alerta.setTitle("ATENÇÃO");
@@ -296,7 +284,7 @@ public class ListaPlantaActivity extends ActivityGeneric {
                         }
 
                         pciContext.getCabecTO().delete();
-                        Intent it = new Intent(ListaPlantaActivity.this, PrincipalActivity.class);
+                        Intent it = new Intent(ListaPlantaActivity.this, MenuInicialActivity.class);
                         startActivity(it);
 
                     }
@@ -318,7 +306,6 @@ public class ListaPlantaActivity extends ActivityGeneric {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 Intent it = new Intent(ListaPlantaActivity.this, ListaOSActivity.class);
                 startActivity(it);
             }
