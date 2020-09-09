@@ -201,6 +201,8 @@ public class EnvioDadosServ {
 
     public void enviarBolFechado() {
 
+		// EXCLUIR CABECALHOS ABERTOS SEM OS
+
         CabecTO cabecTO = new CabecTO();
         List cabecList = cabecTO.get("statusCabec", 2L);
 

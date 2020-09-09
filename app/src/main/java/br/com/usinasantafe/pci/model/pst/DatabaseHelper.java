@@ -11,12 +11,11 @@ import com.j256.ormlite.table.TableUtils;
 import br.com.usinasantafe.pci.model.bean.estatica.ComponenteBean;
 import br.com.usinasantafe.pci.model.bean.estatica.FuncBean;
 import br.com.usinasantafe.pci.model.bean.estatica.ItemBean;
-import br.com.usinasantafe.pci.model.bean.estatica.OSBean;
 import br.com.usinasantafe.pci.model.bean.estatica.PlantaBean;
 import br.com.usinasantafe.pci.model.bean.estatica.ServicoBean;
 import br.com.usinasantafe.pci.model.bean.variavel.CabecBean;
 import br.com.usinasantafe.pci.model.bean.variavel.ConfigBean;
-import br.com.usinasantafe.pci.model.bean.variavel.OSFeitaBean;
+import br.com.usinasantafe.pci.model.bean.variavel.OSBean;
 import br.com.usinasantafe.pci.model.bean.variavel.PlantaCabecBean;
 import br.com.usinasantafe.pci.model.bean.variavel.RespItemBean;
 
@@ -55,7 +54,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 		try{
 
 			TableUtils.createTable(cs, FuncBean.class);
-			TableUtils.createTable(cs, OSBean.class);
+			TableUtils.createTable(cs, br.com.usinasantafe.pci.model.bean.estatica.OSBean.class);
 			TableUtils.createTable(cs, ItemBean.class);
 			TableUtils.createTable(cs, PlantaBean.class);
 			TableUtils.createTable(cs, ServicoBean.class);
@@ -65,7 +64,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 			TableUtils.createTable(cs, RespItemBean.class);
 			TableUtils.createTable(cs, ConfigBean.class);
 			TableUtils.createTable(cs, PlantaCabecBean.class);
-			TableUtils.createTable(cs, OSFeitaBean.class);
+			TableUtils.createTable(cs, OSBean.class);
 
 		}
 		catch(Exception e){

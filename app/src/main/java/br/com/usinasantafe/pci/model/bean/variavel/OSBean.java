@@ -5,8 +5,8 @@ import com.j256.ormlite.table.DatabaseTable;
 
 import br.com.usinasantafe.pci.model.pst.Entidade;
 
-@DatabaseTable(tableName="tbosfeitavar")
-public class OSFeitaBean extends Entidade {
+@DatabaseTable(tableName="tbosvar")
+public class OSBean extends Entidade {
 
     private static final long serialVersionUID = 1L;
 
@@ -15,7 +15,7 @@ public class OSFeitaBean extends Entidade {
     @DatabaseField
     private String dataReal;
 
-    public OSFeitaBean() {
+    public OSBean() {
     }
 
     public Long getNroOS() {

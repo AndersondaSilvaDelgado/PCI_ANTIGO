@@ -13,6 +13,7 @@ import java.util.List;
 
 import br.com.usinasantafe.pci.model.bean.estatica.PlantaBean;
 import br.com.usinasantafe.pci.model.bean.variavel.PlantaCabecBean;
+import br.com.usinasantafe.pci.model.dao.PlantaDAO;
 
 /**
  * Created by anderson on 08/03/2018.
@@ -52,21 +53,19 @@ public class AdapterListPlanta extends BaseAdapter {
         TextView textViewPlantaCD = (TextView) view.findViewById(R.id.textViewPlantaCD);
         TextView textViewPlantaDescr = (TextView) view.findViewById(R.id.textViewPlantaDescr);
 
-        PlantaCabecTO plantaCabecTO = (PlantaCabecTO) itens.get(position);
+        PlantaCabecBean plantaCabecBean = (PlantaCabecBean) itens.get(position);
 
-        PlantaTO plantaTO = new PlantaTO();
-        List plantaList = plantaTO.get("idPlanta", plantaCabecTO.getIdPlanta());
-        plantaTO = (PlantaTO) plantaList.get(0);
-        plantaList.clear();
+        PlantaDAO plantaDAO = new PlantaDAO();
+        PlantaBean plantaBean = plantaDAO.getPlanta(plantaCabecBean.getIdPlanta());
 
-        textViewPlantaCD.setText("PLANTA: " + plantaTO.getCodPlanta());
-        textViewPlantaDescr.setText(plantaTO.getDescrPlanta());
+        textViewPlantaCD.setText("PLANTA: " + plantaBean.getCodPlanta());
+        textViewPlantaDescr.setText(plantaBean.getDescrPlanta());
 
-        if(plantaCabecTO.getStatusPlantaCabec() == 1L) {
+        if(plantaCabecBean.getStatusPlantaCabec() == 1L) {
             textViewPlantaCD.setTextColor(Color.RED);
             textViewPlantaDescr.setTextColor(Color.RED);
         }
-        else if(plantaCabecTO.getStatusPlantaCabec() == 2L) {
+        else if(plantaCabecBean.getStatusPlantaCabec() == 2L) {
             textViewPlantaCD.setTextColor(Color.BLUE);
             textViewPlantaDescr.setTextColor(Color.BLUE);
         }

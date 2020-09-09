@@ -9,6 +9,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.usinasantafe.pci.model.dao.ServicoDAO;
 import br.com.usinasantafe.pci.model.pst.EspecificaPesquisa;
 import br.com.usinasantafe.pci.model.bean.estatica.ItemBean;
 import br.com.usinasantafe.pci.model.bean.estatica.ServicoBean;
@@ -30,51 +31,24 @@ public class DescricaoQuestaoActivity extends ActivityGeneric {
         Button buttonCancDescrQuestao = (Button) findViewById(R.id.buttonCancDescrQuestao);
         Button buttonEditarDescrQuestao = (Button) findViewById(R.id.buttonEditarDescrQuestao);
 
-        CabecTO cabecTO = new CabecTO();
-        List cabecList = cabecTO.get("statusCabec", 1L);
-        cabecTO = (CabecTO) cabecList.get(0);
-
-        RespItemTO respItemTO = new RespItemTO();
-        ArrayList itemArrayList = new ArrayList();
-
-        EspecificaPesquisa pesquisa = new EspecificaPesquisa();
-        pesquisa.setCampo("idCabRespItem");
-        pesquisa.setValor(cabecTO.getIdCabec());
-        itemArrayList.add(pesquisa);
-
-        EspecificaPesquisa pesquisa2 = new EspecificaPesquisa();
-        pesquisa2.setCampo("idItOsMecanRespItem");
-        pesquisa2.setValor(pciContext.getItemTO().getIdItem());
-        itemArrayList.add(pesquisa2);
-
-        List respItemList = respItemTO.get(itemArrayList);
-        respItemTO = (RespItemTO) respItemList.get(0);
-
-        ItemTO itemTO = new ItemTO();
-        List itemList = itemTO.get("idItem", respItemTO.getIdItOsMecanRespItem());
-        itemTO = (ItemTO) itemList.get(0);
+        RespItemBean respItemBean = pciContext.getCheckListCTR().getRespItem();
 
         String questao = "";
 
-        ServicoTO servicoTO = new ServicoTO();
-        List servicoList = servicoTO.get("idServico", itemTO.getIdServicoItem());
-        servicoTO = (ServicoTO) servicoList.get(0);
-        servicoList.clear();
-
-        questao = "QUESTÃO " + itemTO.getSeqItem() + "\n";
-        questao = questao + "DESCR: " + servicoTO.getDescrServico() + "\n";
-        if(respItemTO.getOpcaoRespItem() == 1){
+        questao = "QUESTÃO " + pciContext.getCheckListCTR().getItemBean().getSeqItem() + "\n";
+        questao = questao + "DESCR: " + pciContext.getCheckListCTR().getServico(pciContext.getCheckListCTR().getItemBean().getIdServicoItem()).getDescrServico() + "\n";
+        if(respItemBean.getOpcaoRespItem() == 1){
             questao = questao + "INCONFORME\n";
         }
         else{
             questao = questao + "CONFORME\n";
         }
 
-        if(respItemTO.getObsRespItem().equals("null")){
+        if(respItemBean.getObsRespItem().equals("null")){
             questao = questao + "\nOBS.:";
         }
         else{
-            questao = questao + "\nOBS.:" + respItemTO.getObsRespItem();
+            questao = questao + "\nOBS.:" + respItemBean.getObsRespItem();
         }
 
         textViewDescQuestao.setText(questao);
@@ -82,10 +56,9 @@ public class DescricaoQuestaoActivity extends ActivityGeneric {
         buttonEditarDescrQuestao.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent it = new Intent( DescricaoQuestaoActivity.this, QuestaoActivity.class);
                 startActivity(it);
-
+                finish();
             }
         });
 
@@ -94,6 +67,7 @@ public class DescricaoQuestaoActivity extends ActivityGeneric {
             public void onClick(View v) {
                 Intent it = new Intent(DescricaoQuestaoActivity.this, ListaQuestaoActivity.class);
                 startActivity(it);
+                finish();
             }
         });
 

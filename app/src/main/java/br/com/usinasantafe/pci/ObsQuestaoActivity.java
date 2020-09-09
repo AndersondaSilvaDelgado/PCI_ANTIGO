@@ -19,9 +19,7 @@ import br.com.usinasantafe.pci.model.pst.EspecificaPesquisa;
 public class ObsQuestaoActivity extends ActivityGeneric {
 
     private PCIContext pciContext;
-    private ItemTO itemTO;
     private EditText editTextObservacao;
-    private RespItemTO respItemTO;
     private List respItemList;
     private Button buttonOkObservacao;
 
@@ -36,28 +34,11 @@ public class ObsQuestaoActivity extends ActivityGeneric {
         buttonOkObservacao = (Button) findViewById(R.id.buttonOkObservacao);
         Button buttonCancObservacao = (Button) findViewById(R.id.buttonCancObservacao);
 
-        editTextObservacao.setText("");
-
-        itemTO = pciContext.getItemTO();
-
-        RespItemTO respItemTO = new RespItemTO();
-        ArrayList itemArrayList = new ArrayList();
-
-        EspecificaPesquisa pesquisa = new EspecificaPesquisa();
-        pesquisa.setCampo("idCabRespItem");
-        pesquisa.setValor(pciContext.getCabecTO().getIdCabec());
-        itemArrayList.add(pesquisa);
-
-        EspecificaPesquisa pesquisa2 = new EspecificaPesquisa();
-        pesquisa2.setCampo("idItOsMecanRespItem");
-        pesquisa2.setValor(itemTO.getIdItem());
-        itemArrayList.add(pesquisa2);
-
-        respItemList = respItemTO.get(itemArrayList);
-
-        if(respItemList.size() > 0){
-            respItemTO = (RespItemTO) respItemList.get(0);
-            editTextObservacao.setText(respItemTO.getObsRespItem());
+        if(!pciContext.getCheckListCTR().verRespItem()){
+            editTextObservacao.setText(pciContext.getCheckListCTR().getRespItem().getObsRespItem());
+        }
+        else{
+            editTextObservacao.setText("");
         }
 
         editTextObservacao.addTextChangedListener(new TextWatcher() {
@@ -97,33 +78,12 @@ public class ObsQuestaoActivity extends ActivityGeneric {
 
                 if(!editTextObservacao.getText().toString().equals("")) {
 
-                    if (respItemList.size() == 0) {
-                        RespItemTO respItemTO = new RespItemTO();
-                        respItemTO.setIdCabRespItem(pciContext.getCabecTO().getIdCabec());
-                        respItemTO.setIdItOsMecanRespItem(itemTO.getIdItem());
-                        respItemTO.setOpcaoRespItem(1L);
-                        respItemTO.setObsRespItem(editTextObservacao.getText().toString());
-                        respItemTO.setIdPlantaItem(itemTO.getIdPlantaItem());
-                        respItemTO.setDthrRespItem(Tempo.getInstance().data());
-                        respItemTO.insert();
+                    pciContext.getCheckListCTR().salvarAtualRespItem(1L, editTextObservacao.getText().toString());
 
-                        Intent it = new Intent(ObsQuestaoActivity.this, ListaQuestaoActivity.class);
-                        startActivity(it);
-                        finish();
+                    Intent it = new Intent(ObsQuestaoActivity.this, ListaQuestaoActivity.class);
+                    startActivity(it);
+                    finish();
 
-                    } else {
-                        RespItemTO respItemTO = (RespItemTO) respItemList.get(0);
-
-                        respItemTO.setOpcaoRespItem(1L);
-                        respItemTO.setObsRespItem(editTextObservacao.getText().toString());
-                        respItemTO.setDthrRespItem(Tempo.getInstance().data());
-                        respItemTO.update();
-
-                        Intent it = new Intent(ObsQuestaoActivity.this, ListaQuestaoActivity.class);
-                        startActivity(it);
-                        finish();
-
-                    }
                 }
             }
         });

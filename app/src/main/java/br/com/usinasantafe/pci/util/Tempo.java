@@ -115,7 +115,7 @@ public class Tempo {
             timerAtual.schedule(task, REFRESH_TIME, REFRESH_TIME); 
     }
 	
-    public String data(){
+    public String dataCHora(){
 
         String dataCerta = "";
 

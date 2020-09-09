@@ -12,14 +12,16 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.usinasantafe.pci.model.bean.estatica.FuncBean;
+import br.com.usinasantafe.pci.model.bean.estatica.ItemBean;
+import br.com.usinasantafe.pci.model.bean.estatica.OSBean;
 import br.com.usinasantafe.pci.util.VerifDadosServ;
 import br.com.usinasantafe.pci.model.pst.EspecificaPesquisa;
 
 public class ListaQuestaoActivity extends ActivityGeneric {
 
     private PCIContext pciContext;
-    private OSTO osTO;
-    private ArrayList itemList;
+    private ArrayList<ItemBean> itemArrayList;
     private ProgressDialog progressBar;
 
     @Override
@@ -34,91 +36,15 @@ public class ListaQuestaoActivity extends ActivityGeneric {
         ListView listViewQuestao = (ListView) findViewById(R.id.listViewQuestao);
         Button buttonRetQuestao = (Button) findViewById(R.id.buttonRetQuestao);
 
-        CabecTO cabecTO = new CabecTO();
-        List cabecList = cabecTO.get("verApontCab", 1L);
-        pciContext.setCabecTO((CabecTO) cabecList.get(0));
-        cabecList.clear();
+        FuncBean funcBean = pciContext.getCheckListCTR().getFunc();
+        textViewDadosAuditor.setText(funcBean.getMatricFunc() + " - " + funcBean.getNomeFunc());
 
-        FuncTO funcTO = new FuncTO();
-        List funcList = funcTO.get("idFunc", pciContext.getCabecTO().getIdFuncCabec());
-        funcTO = (FuncTO) funcList.get(0);
+        OSBean osBean = pciContext.getCheckListCTR().getOS();
+        textViewDadosOS.setText("NRO OS: " + osBean.getNroOS());
 
-        textViewDadosAuditor.setText(funcTO.getMatricFunc() + " - " + funcTO.getNomeFunc());
+        itemArrayList = pciContext.getCheckListCTR().getItemArrayList();
 
-        osTO = new OSTO();
-        List osList = osTO.get("idOS", pciContext.getCabecTO().getOsCabec());
-        osTO = (OSTO) osList.get(0);
-
-        textViewDadosOS.setText("NRO OS: " + osTO.getNroOS());
-
-        PlantaCabecTO plantaCabecTO = new PlantaCabecTO();
-        List plantaCabecList = plantaCabecTO.get("verApontaPlanta",  1L);
-        plantaCabecTO = (PlantaCabecTO) plantaCabecList.get(0);
-        plantaCabecList.clear();
-
-        ItemTO itemTO = new ItemTO();
-        List iList = itemTO.getAndOrderBy("idPlantaItem", plantaCabecTO.getIdPlanta(), "idComponenteItem", true);
-
-        itemList = new ArrayList();
-        RespItemTO respItemTO = new RespItemTO();
-        List respList = respItemTO.get("idCabRespItem", pciContext.getCabecTO().getIdCabec());
-
-        for(int i = 0; i < iList.size(); i++){
-            boolean ver = true;
-            itemTO = (ItemTO) iList.get(i);
-            for (int j = 0; j < respList.size(); j++) {
-                respItemTO = (RespItemTO) respList.get(j);
-                if(itemTO.getIdItem().equals(respItemTO.getIdItOsMecanRespItem())){
-                    ver = false;
-                }
-            }
-            if(ver) {
-                itemTO.setOpcaoSelItem(0L);
-                itemList.add(itemTO);
-            }
-        }
-
-        if(itemList.size() == 0){
-            plantaCabecTO.setStatusPlantaCabec(2L);
-            plantaCabecTO.update();
-
-            pciContext.getCabecTO().setStatusCabec(1L);
-            pciContext.getCabecTO().update();
-        }
-
-        for(int i = 0; i < iList.size(); i++){
-            boolean ver = false;
-            itemTO = (ItemTO) iList.get(i);
-            for (int j = 0; j < respList.size(); j++) {
-                respItemTO = (RespItemTO) respList.get(j);
-                if(itemTO.getIdItem().equals(respItemTO.getIdItOsMecanRespItem())){
-                    ver = true;
-                    if(respItemTO.getOpcaoRespItem() == 2L){
-                        itemTO.setOpcaoSelItem(2L);
-                    }
-                    else if(respItemTO.getOpcaoRespItem() == 1L){
-                        itemTO.setOpcaoSelItem(1L);
-                    }
-                }
-            }
-            if(ver) {
-                itemList.add(itemTO);
-            }
-        }
-
-        boolean verPlanta = false;
-
-        for(int i = 0; i < itemList .size(); i++){
-            itemTO = (ItemTO) itemList.get(i);
-            PlantaTO plantaTO = new PlantaTO();
-            List plantaList = plantaTO.get("idPlanta", itemTO.getIdPlantaItem());
-            if(plantaList.size() == 0){
-                verPlanta = true;
-            }
-            plantaList.clear();
-        }
-
-        if(verPlanta){
+        if(pciContext.getCheckListCTR().verPlanta(itemArrayList)){
             progressBar = new ProgressDialog( ListaQuestaoActivity.this);
             progressBar.setCancelable(true);
             progressBar.setMessage("Atualizando Plantas...");
@@ -128,19 +54,7 @@ public class ListaQuestaoActivity extends ActivityGeneric {
                     , ListaQuestaoActivity.this, ListaQuestaoActivity.class, progressBar);
         }
 
-        boolean verServico = false;
-
-        for(int i = 0; i < itemList.size(); i++){
-            itemTO = (ItemTO) itemList.get(i);
-            ServicoTO servicoTO = new ServicoTO();
-            List servicoList = servicoTO.get("idServico", itemTO.getIdServicoItem());
-            if(servicoList.size() == 0){
-                verServico = true;
-            }
-            servicoList.clear();
-        }
-
-        if(verServico){
+        if(pciContext.getCheckListCTR().verServico(itemArrayList)){
             progressBar = new ProgressDialog( ListaQuestaoActivity.this);
             progressBar.setCancelable(true);
             progressBar.setMessage("Atualizando Itens...");
@@ -150,7 +64,7 @@ public class ListaQuestaoActivity extends ActivityGeneric {
                     , ListaQuestaoActivity.this, ListaQuestaoActivity.class, progressBar);
         }
 
-        AdapterListQuestao adapterListQuestao = new AdapterListQuestao(this, itemList);
+        AdapterListQuestao adapterListQuestao = new AdapterListQuestao(this, itemArrayList);
         listViewQuestao.setAdapter(adapterListQuestao);
 
         listViewQuestao.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -159,30 +73,17 @@ public class ListaQuestaoActivity extends ActivityGeneric {
             public void onItemClick(AdapterView<?> l, View v, int position,
                                     long id) {
 
-                pciContext.setItemTO((ItemTO) itemList.get(position));
+                pciContext.getCheckListCTR().setItemBean((ItemBean) itemArrayList.get(position));
 
-                RespItemTO respItemTO = new RespItemTO();
-                ArrayList itemArrayList = new ArrayList();
-
-                EspecificaPesquisa pesquisa = new EspecificaPesquisa();
-                pesquisa.setCampo("idCabRespItem");
-                pesquisa.setValor(pciContext.getCabecTO().getIdCabec());
-                itemArrayList.add(pesquisa);
-
-                EspecificaPesquisa pesquisa2 = new EspecificaPesquisa();
-                pesquisa2.setCampo("idItOsMecanRespItem");
-                pesquisa2.setValor(pciContext.getItemTO().getIdItem());
-                itemArrayList.add(pesquisa2);
-
-                List respItemList = respItemTO.get(itemArrayList);
-
-                if(respItemList.size() == 0){
+                if(pciContext.getCheckListCTR().verRespItem()){
                     Intent it = new Intent(ListaQuestaoActivity.this, QuestaoActivity.class);
                     startActivity(it);
+                    finish();
                 }
                 else{
                     Intent it = new Intent(ListaQuestaoActivity.this, DescricaoQuestaoActivity.class);
                     startActivity(it);
+                    finish();
                 }
 
 
@@ -197,6 +98,7 @@ public class ListaQuestaoActivity extends ActivityGeneric {
 
                 Intent it = new Intent(ListaQuestaoActivity.this, ListaPlantaActivity.class);
                 startActivity(it);
+                finish();
 
             }
         });

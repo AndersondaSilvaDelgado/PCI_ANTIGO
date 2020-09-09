@@ -18,19 +18,15 @@ public class CabecBean extends Entidade {
     @DatabaseField
     private Long idExtCabec;
     @DatabaseField
-    private Long osCabec;
+    private Long idOSCabec;
     @DatabaseField
     private Long idFuncCabec;
     @DatabaseField
     private String dataCabec;
     @DatabaseField
-    private Long statusCabec;  //0 - Aberto; 1 - Aberto com planta totalmente apontada; 2 - Fechado
+    private Long statusCabec;  //1 - Aberto; 2 - Fechado
     @DatabaseField
-    private Long nroOSCabec;
-    @DatabaseField
-    private Long qtdeDiaOS;
-    @DatabaseField
-    private Long verApontCab;
+    private Long statusApontCabec;
 
     public CabecBean() {
     }
@@ -39,12 +35,12 @@ public class CabecBean extends Entidade {
         return idCabec;
     }
 
-    public Long getOsCabec() {
-        return osCabec;
+    public Long getIdOSCabec() {
+        return idOSCabec;
     }
 
-    public void setOsCabec(Long osCabec) {
-        this.osCabec = osCabec;
+    public void setIdOSCabec(Long idOSCabec) {
+        this.idOSCabec = idOSCabec;
     }
 
     public String getDataCabec() {
@@ -71,22 +67,6 @@ public class CabecBean extends Entidade {
         this.statusCabec = statusCabec;
     }
 
-    public Long getNroOSCabec() {
-        return nroOSCabec;
-    }
-
-    public void setNroOSCabec(Long nroOSCabec) {
-        this.nroOSCabec = nroOSCabec;
-    }
-
-    public Long getQtdeDiaOS() {
-        return qtdeDiaOS;
-    }
-
-    public void setQtdeDiaOS(Long qtdeDiaOS) {
-        this.qtdeDiaOS = qtdeDiaOS;
-    }
-
     public Long getIdExtCabec() {
         return idExtCabec;
     }
@@ -95,11 +75,11 @@ public class CabecBean extends Entidade {
         this.idExtCabec = idExtCabec;
     }
 
-    public Long getVerApontCab() {
-        return verApontCab;
+    public Long getStatusApontCabec() {
+        return statusApontCabec;
     }
 
-    public void setVerApontCab(Long verApontCab) {
-        this.verApontCab = verApontCab;
+    public void setStatusApontCabec(Long statusApontCabec) {
+        this.statusApontCabec = statusApontCabec;
     }
 }

@@ -10,6 +10,11 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import br.com.usinasantafe.pci.model.bean.estatica.ComponenteBean;
+import br.com.usinasantafe.pci.model.bean.estatica.ItemBean;
+import br.com.usinasantafe.pci.model.dao.ComponenteDAO;
+import br.com.usinasantafe.pci.model.dao.ServicoDAO;
+
 /**
  * Created by anderson on 08/03/2018.
  */
@@ -47,34 +52,28 @@ public class AdapterListQuestao extends BaseAdapter {
         TextView textViewDescrQuestao = (TextView) view.findViewById(R.id.textViewDescrQuestao);
         TextView textViewStatusQuestao = (TextView) view.findViewById(R.id.textViewStatusQuestao);
 
-        ItemTO itemTO = (ItemTO) itens.get(position);
+        ItemBean itemBean = (ItemBean) itens.get(position);
+        textViewPosQuestao.setText("QUESTÃO " + itemBean.getSeqItem());
 
-        ServicoTO servicoTO = new ServicoTO();
-        List servicoList = servicoTO.get("idServico", itemTO.getIdServicoItem());
-        servicoTO = (ServicoTO) servicoList.get(0);
-        servicoList.clear();
+        ServicoDAO servicoDAO = new ServicoDAO();
+        String texto = servicoDAO.getServico(itemBean.getIdServicoItem()).getDescrServico();
 
-        textViewPosQuestao.setText("QUESTÃO " + itemTO.getSeqItem());
-
-        String texto = servicoTO.getDescrServico();
-        ComponenteTO componenteTO = new ComponenteTO();
-        List componenteList = componenteTO.get("idComponente", itemTO.getIdComponenteItem());
-        if(componenteList.size() > 0){
-            componenteTO = (ComponenteTO) componenteList.get(0);
-            texto = texto + "\n" + componenteTO.getCodComponente() + " - " +componenteTO.getDescrComponente();
+        ComponenteDAO componenteDAO = new ComponenteDAO();
+        if(componenteDAO.verComponente(itemBean.getIdComponenteItem())){
+            ComponenteBean componenteBean = componenteDAO.getComponente(itemBean.getIdComponenteItem());
+            texto = texto + "\n" + componenteBean.getCodComponente() + " - " +componenteBean.getDescrComponente();
         }
-        componenteList.clear();
 
         textViewDescrQuestao.setText(texto);
         textViewStatusQuestao.setText("");
 
-        if(itemTO.getOpcaoSelItem() == 2L){
+        if(itemBean.getOpcaoSelItem() == 2L){
             textViewStatusQuestao.setText("CONFORME");
             textViewPosQuestao.setTextColor(Color.BLUE);
             textViewDescrQuestao.setTextColor(Color.BLUE);
             textViewStatusQuestao.setTextColor(Color.BLUE);
         }
-        else if(itemTO.getOpcaoSelItem() == 1L){
+        else if(itemBean.getOpcaoSelItem() == 1L){
             textViewStatusQuestao.setText("INCONFORME");
             textViewPosQuestao.setTextColor(Color.RED);
             textViewDescrQuestao.setTextColor(Color.RED);

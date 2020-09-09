@@ -23,8 +23,6 @@ public class OSBean extends Entidade {
     private Long qtdeDiaOS;
     @DatabaseField
     private String descrPeriodo;
-    @DatabaseField
-    private Long statusOS; //1 - apontando
 
     public OSBean() {
     }
@@ -59,14 +57,6 @@ public class OSBean extends Entidade {
 
     public void setQtdeDiaOS(Long qtdeDiaOS) {
         this.qtdeDiaOS = qtdeDiaOS;
-    }
-
-    public Long getStatusOS() {
-        return statusOS;
-    }
-
-    public void setStatusOS(Long statusOS) {
-        this.statusOS = statusOS;
     }
 
     public String getDescrPeriodo() {

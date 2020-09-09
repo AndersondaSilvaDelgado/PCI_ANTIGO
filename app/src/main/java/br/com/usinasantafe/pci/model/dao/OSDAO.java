@@ -1,10 +1,7 @@
 package br.com.usinasantafe.pci.model.dao;
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 
 import com.google.gson.Gson;
 
@@ -14,11 +11,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.usinasantafe.pci.control.ConfigCTR;
-import br.com.usinasantafe.pci.model.bean.estatica.OSBean;
-import br.com.usinasantafe.pci.model.bean.variavel.CabecBean;
-import br.com.usinasantafe.pci.model.bean.variavel.OSFeitaBean;
-import br.com.usinasantafe.pci.model.pst.GenericRecordable;
+import br.com.usinasantafe.pci.model.bean.variavel.OSBean;
 import br.com.usinasantafe.pci.util.Tempo;
 import br.com.usinasantafe.pci.util.VerifDadosServ;
 
@@ -27,16 +20,33 @@ public class OSDAO {
     public OSDAO() {
     }
 
-    public List osList(){
-        OSBean osBean = new OSBean();
+    public br.com.usinasantafe.pci.model.bean.estatica.OSBean getOS(Long idOS){
+        List<br.com.usinasantafe.pci.model.bean.estatica.OSBean> osList = osBaseList(idOS);
+        br.com.usinasantafe.pci.model.bean.estatica.OSBean osBean = osList.get(0);
+        osList.clear();
+        return osBean;
+    }
+
+    public List<br.com.usinasantafe.pci.model.bean.estatica.OSBean> osBaseList(Long idOS){
+        br.com.usinasantafe.pci.model.bean.estatica.OSBean osBean = new br.com.usinasantafe.pci.model.bean.estatica.OSBean();
+        return osBean.get("idOS", idOS);
+    }
+
+    public List<br.com.usinasantafe.pci.model.bean.estatica.OSBean> osBaseList(){
+        br.com.usinasantafe.pci.model.bean.estatica.OSBean osBean = new br.com.usinasantafe.pci.model.bean.estatica.OSBean();
+        return osBean.all();
+    }
+
+    public List<br.com.usinasantafe.pci.model.bean.variavel.OSBean> osVarList(){
+        br.com.usinasantafe.pci.model.bean.variavel.OSBean osBean = new br.com.usinasantafe.pci.model.bean.variavel.OSBean();
         return osBean.all();
     }
 
     public ArrayList<Long> idPlantaOSList(){
-        List osList = osList();
+        List osList = osBaseList();
         ArrayList<Long> idPlantaList = new ArrayList<>();
         for(int i = 0; i < osList.size(); i++){
-            OSBean osBean = (OSBean) osList.get(i);
+            br.com.usinasantafe.pci.model.bean.estatica.OSBean osBean = (br.com.usinasantafe.pci.model.bean.estatica.OSBean) osList.get(i);
             idPlantaList.add(osBean.getIdPlantaOS());
         }
         osList.clear();
@@ -44,12 +54,12 @@ public class OSDAO {
     }
 
     public void deleteOSFeita(){
-        OSFeitaBean osFeitaBean = new OSFeitaBean();
-        List osFeitaList = osFeitaBean.all();
+        OSBean osBean = new OSBean();
+        List osFeitaList = osBean.all();
         for(int i = 0; i < osFeitaList.size(); i++){
-            osFeitaBean = (OSFeitaBean) osFeitaList.get(i);
-            if(!osFeitaBean.getDataReal().equals(Tempo.getInstance().dataSHora())){
-                osFeitaBean.delete();
+            osBean = (OSBean) osFeitaList.get(i);
+            if(!osBean.getDataReal().equals(Tempo.getInstance().dataSHora())){
+                osBean.delete();
             }
         }
     }
@@ -69,14 +79,14 @@ public class OSDAO {
 
                 if (jsonArray.length() > 0) {
 
-                    OSBean osBean = new OSBean();
+                    br.com.usinasantafe.pci.model.bean.estatica.OSBean osBean = new br.com.usinasantafe.pci.model.bean.estatica.OSBean();
                     osBean.deleteAll();
 
                     for (int i = 0; i < jsonArray.length(); i++) {
 
                         JSONObject objeto = jsonArray.getJSONObject(i);
                         Gson gson = new Gson();
-                        osBean = gson.fromJson(objeto.toString(), OSBean.class);
+                        osBean = gson.fromJson(objeto.toString(), br.com.usinasantafe.pci.model.bean.estatica.OSBean.class);
                         osBean.insert();
 
                     }

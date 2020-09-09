@@ -14,20 +14,32 @@ public class FuncDAO {
         return funcBean.hasElements();
     }
 
-    private List funcList(Long matricFunc){
+    private List matricFuncList(Long matricFunc){
         FuncBean funcBean = new FuncBean();
         return funcBean.get("matricFunc", matricFunc);
     }
 
-    public boolean verFunc(Long matricFunc){
-        List funcList = funcList(matricFunc);
+    private List idFuncList(Long idFunc){
+        FuncBean funcBean = new FuncBean();
+        return funcBean.get("idFunc", idFunc);
+    }
+
+    public boolean verMatricFunc(Long matricFunc){
+        List funcList = matricFuncList(matricFunc);
         boolean ret = funcList.size() > 0;
         funcList.clear();
         return ret;
     }
 
-    public FuncBean getFunc(Long matricFunc){
-        List funcList = funcList(matricFunc);
+    public FuncBean getMatricFunc(Long matricFunc){
+        List funcList = matricFuncList(matricFunc);
+        FuncBean funcBean = (FuncBean) funcList.get(0);
+        funcList.clear();
+        return funcBean;
+    }
+
+    public FuncBean getIdFunc(Long idFunc){
+        List funcList = idFuncList(idFunc);
         FuncBean funcBean = (FuncBean) funcList.get(0);
         funcList.clear();
         return funcBean;

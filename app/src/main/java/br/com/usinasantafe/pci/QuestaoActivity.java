@@ -9,14 +9,13 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.usinasantafe.pci.model.bean.estatica.ComponenteBean;
 import br.com.usinasantafe.pci.util.Tempo;
 import br.com.usinasantafe.pci.model.pst.EspecificaPesquisa;
 
 public class QuestaoActivity extends ActivityGeneric {
 
     private PCIContext pciContext;
-    private ItemTO itemTO;
-    private RespItemTO respItemTO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,22 +29,12 @@ public class QuestaoActivity extends ActivityGeneric {
         Button buttonNaoConforme = (Button) findViewById(R.id.buttonNaoConforme);
         Button buttonRetQuestao = (Button) findViewById(R.id.buttonRetQuestao);
 
-        itemTO = pciContext.getItemTO();
+        String texto = pciContext.getCheckListCTR().getServico(pciContext.getCheckListCTR().getItemBean().getIdServicoItem()).getDescrServico();
 
-        ServicoTO servicoTO = new ServicoTO();
-        List servicoList = servicoTO.get("idServico", itemTO.getIdServicoItem());
-        servicoTO = (ServicoTO) servicoList.get(0);
-        servicoList.clear();
-
-        String texto = servicoTO.getDescrServico();
-
-        ComponenteTO componenteTO = new ComponenteTO();
-        List componenteList = componenteTO.get("idComponente", itemTO.getIdComponenteItem());
-        if(componenteList.size() > 0){
-            componenteTO = (ComponenteTO) componenteList.get(0);
-            texto = texto + "\n" + componenteTO.getCodComponente() + " - " +componenteTO.getDescrComponente();
+        if(pciContext.getCheckListCTR().verComponente(pciContext.getCheckListCTR().getItemBean().getIdServicoItem())){
+            ComponenteBean componenteBean = pciContext.getCheckListCTR().getComponente(pciContext.getCheckListCTR().getItemBean().getIdServicoItem());
+            texto = texto + "\n" + componenteBean.getCodComponente() + " - " +componenteBean.getDescrComponente();
         }
-        componenteList.clear();
 
         textViewItemQuestao.setText(texto);
 
@@ -64,49 +53,11 @@ public class QuestaoActivity extends ActivityGeneric {
             @Override
             public void onClick(View v) {
 
-                RespItemTO respItemTO = new RespItemTO();
-                ArrayList itemArrayList = new ArrayList();
+                pciContext.getCheckListCTR().salvarAtualRespItem(2L, "null");
 
-                EspecificaPesquisa pesquisa = new EspecificaPesquisa();
-                pesquisa.setCampo("idCabRespItem");
-                pesquisa.setValor(pciContext.getCabecTO().getIdCabec());
-                itemArrayList.add(pesquisa);
-
-                EspecificaPesquisa pesquisa2 = new EspecificaPesquisa();
-                pesquisa2.setCampo("idItOsMecanRespItem");
-                pesquisa2.setValor(itemTO.getIdItem());
-                itemArrayList.add(pesquisa2);
-
-                List respItemList = respItemTO.get(itemArrayList);
-
-                if(respItemList.size() == 0){
-                    respItemTO = new RespItemTO();
-                    respItemTO.setIdCabRespItem(pciContext.getCabecTO().getIdCabec());
-                    respItemTO.setIdItOsMecanRespItem(itemTO.getIdItem());
-                    respItemTO.setOpcaoRespItem(2L);
-                    respItemTO.setObsRespItem("null");
-                    respItemTO.setIdPlantaItem(itemTO.getIdPlantaItem());
-                    respItemTO.setDthrRespItem(Tempo.getInstance().data());
-                    respItemTO.insert();
-
-                    Intent it = new Intent(QuestaoActivity.this, ListaQuestaoActivity.class);
-                    startActivity(it);
-                    finish();
-
-                }
-                else{
-                    respItemTO = (RespItemTO) respItemList.get(0);
-
-                    respItemTO.setOpcaoRespItem(2L);
-                    respItemTO.setObsRespItem("null");
-                    respItemTO.setDthrRespItem(Tempo.getInstance().data());
-                    respItemTO.update();
-
-                    Intent it = new Intent(QuestaoActivity.this, ListaQuestaoActivity.class);
-                    startActivity(it);
-                    finish();
-
-                }
+                Intent it = new Intent(QuestaoActivity.this, ListaQuestaoActivity.class);
+                startActivity(it);
+                finish();
 
             }
         });
