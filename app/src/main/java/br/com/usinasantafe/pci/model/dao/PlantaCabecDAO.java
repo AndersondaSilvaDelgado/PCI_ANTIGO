@@ -71,6 +71,46 @@ public class PlantaCabecDAO {
 
     }
 
+    public boolean verPlantaEnvio(){
+
+        List<PlantaCabecBean> plantaCabecList = plantaCabecEnvioList();
+        boolean ret = plantaCabecList.size() > 0;
+        plantaCabecList.clear();
+        return ret;
+
+    }
+
+    public ArrayList<Long> idCabecPlantaEnvioList(){
+
+        List<PlantaCabecBean> plantaCabecList = plantaCabecEnvioList();
+
+        ArrayList<Long> idCabecPlantaList = new ArrayList<>();
+        for (int i = 0; i < plantaCabecList.size(); i++) {
+            PlantaCabecBean plantaCabecBean = (PlantaCabecBean) plantaCabecList.get(i);
+            idCabecPlantaList.add(plantaCabecBean.getIdCabec());
+        }
+
+        plantaCabecList.clear();
+
+        return idCabecPlantaList;
+
+    }
+
+    public ArrayList<Long> idPlantaCabecEnvioList(){
+
+        List<PlantaCabecBean> plantaCabecList = plantaCabecEnvioList();
+
+        ArrayList<Long> idPlantaCabecList = new ArrayList<>();
+        for (int i = 0; i < plantaCabecList.size(); i++) {
+            PlantaCabecBean plantaCabecBean = (PlantaCabecBean) plantaCabecList.get(i);
+            idPlantaCabecList.add(plantaCabecBean.getIdPlantaCabec());
+        }
+
+        plantaCabecList.clear();
+
+        return idPlantaCabecList;
+
+    }
 
     public boolean verPlantaCabec(Long idCabec){
         List<PlantaCabecBean> plantaCabecList = plantaCabecList(idCabec);
@@ -115,6 +155,11 @@ public class PlantaCabecDAO {
         return plantaCabecBean.get("statusPlantaCabec", 2L);
     }
 
+    public List<PlantaCabecBean> plantaCabecEnvioList(){
+        PlantaCabecBean plantaCabecBean = new PlantaCabecBean();
+        return plantaCabecBean.get("statusPlantaCabec", 3L);
+    }
+
     public List<PlantaCabecBean> plantaCabecList(Long idCabec){
         PlantaCabecBean plantaCabecBean = new PlantaCabecBean();
         return plantaCabecBean.get("idCabec", idCabec);
@@ -130,7 +175,7 @@ public class PlantaCabecDAO {
 
     private EspecificaPesquisa getPesqPlantaFechada(){
         EspecificaPesquisa pesquisa = new EspecificaPesquisa();
-        pesquisa.setCampo("idOSCabec");
+        pesquisa.setCampo("statusPlantaCabec");
         pesquisa.setValor(2L);
         pesquisa.setTipo(1);
         return pesquisa;

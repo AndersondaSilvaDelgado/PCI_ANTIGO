@@ -10,14 +10,14 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
-import br.com.usinasantafe.pci.model.bean.estatica.OSBean;
+import br.com.usinasantafe.pci.model.bean.estatica.OSBaseBean;
 import br.com.usinasantafe.pci.util.VerifDadosServ;
 
 public class ListaOSActivity extends ActivityGeneric {
 
     private PCIContext pciContext;
     private ProgressDialog progressBar;
-    private ArrayList<OSBean> osCabList;
+    private ArrayList<OSBaseBean> osCabList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,16 +51,16 @@ public class ListaOSActivity extends ActivityGeneric {
             public void onItemClick(AdapterView<?> l, View v, int position,
                                     long id) {
 
-                OSBean osBean = osCabList.get(position);
+                OSBaseBean osBaseBean = osCabList.get(position);
 
-                pciContext.getCheckListCTR().salvarAtualCabec(osBean);
+                pciContext.getCheckListCTR().salvarAtualCabec(osBaseBean);
 
                 progressBar = new ProgressDialog(v.getContext());
                 progressBar.setCancelable(true);
                 progressBar.setMessage("Pequisando Item...");
                 progressBar.show();
 
-                VerifDadosServ.getInstance().verDados(osBean.getIdOS().toString(), "Item"
+                VerifDadosServ.getInstance().verDados(osBaseBean.getIdOS().toString(), "Item"
                         ,   ListaOSActivity.this, ListaPlantaActivity.class, progressBar);
 
                 osCabList.clear();

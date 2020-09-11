@@ -1,9 +1,14 @@
 package br.com.usinasantafe.pci.model.dao;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import br.com.usinasantafe.pci.model.bean.estatica.ItemBean;
+import br.com.usinasantafe.pci.model.bean.variavel.CabecBean;
 import br.com.usinasantafe.pci.model.bean.variavel.RespItemBean;
 import br.com.usinasantafe.pci.model.pst.EspecificaPesquisa;
 import br.com.usinasantafe.pci.util.Tempo;
@@ -13,17 +18,15 @@ public class RespItemDAO {
     public RespItemDAO() {
     }
 
-    public void salvarRespItem(Long idCabec, ItemBean itemBean, Long opcao, String obs){
-
+    public void salvarRespItem(Long idCabec, ItemBean itemBean, Long idPlantaCabec, Long opcao, String obs){
         RespItemBean respItemBean = new RespItemBean();
         respItemBean.setIdCabRespItem(idCabec);
         respItemBean.setIdItOsMecanRespItem(itemBean.getIdItem());
         respItemBean.setOpcaoRespItem(opcao);
         respItemBean.setObsRespItem(obs);
-        respItemBean.setIdPlantaItem(itemBean.getIdPlantaItem());
+        respItemBean.setIdPlantaCabecItem(idPlantaCabec);
         respItemBean.setDthrRespItem(Tempo.getInstance().dataCHora());
         respItemBean.insert();
-
     }
 
     public void updRespItem(Long idCabec, ItemBean itemBean, Long opcao, String obs){
@@ -32,6 +35,11 @@ public class RespItemDAO {
         respItemBean.setObsRespItem(obs);
         respItemBean.setDthrRespItem(Tempo.getInstance().dataCHora());
         respItemBean.update();
+    }
+
+    public List getListRespItemEnvio(ArrayList<Long> idPlantaCabecList){
+        RespItemBean respItemBean = new RespItemBean();
+        return respItemBean.in("idPlantaCabec", idPlantaCabecList);
     }
 
     public RespItemBean getRespItem(Long idCabec, Long idItem){
@@ -86,6 +94,25 @@ public class RespItemDAO {
     public List respItemList(Long idCabec){
         RespItemBean respItemBean = new RespItemBean();
         return respItemBean.get("idCabRespItem", idCabec);
+    }
+
+    public String dadosEnvioRespItem(List respItemList){
+
+        JsonArray jsonArrayRespItem = new JsonArray();
+
+        for (int i = 0; i < respItemList.size(); i++) {
+            RespItemBean respItemBean = (RespItemBean) respItemList.get(i);
+            Gson gson = new Gson();
+            jsonArrayRespItem.add(gson.toJsonTree(respItemBean, respItemBean.getClass()));
+        }
+
+        respItemList.clear();
+
+        JsonObject jsonItem = new JsonObject();
+        jsonItem.add("item", jsonArrayRespItem);
+
+        return jsonItem.toString();
+
     }
 
     private EspecificaPesquisa getPesqCabResp(Long idCabec){

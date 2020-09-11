@@ -24,7 +24,7 @@ public class RespItemBean extends Entidade {
     @DatabaseField
     private String obsRespItem;
     @DatabaseField
-    private Long idPlantaItem;
+    private Long idPlantaCabecItem;
     @DatabaseField
     private String dthrRespItem;
 
@@ -67,12 +67,12 @@ public class RespItemBean extends Entidade {
         this.obsRespItem = obsRespItem;
     }
 
-    public Long getIdPlantaItem() {
-        return idPlantaItem;
+    public Long getIdPlantaCabecItem() {
+        return idPlantaCabecItem;
     }
 
-    public void setIdPlantaItem(Long idPlantaItem) {
-        this.idPlantaItem = idPlantaItem;
+    public void setIdPlantaCabecItem(Long idPlantaCabecItem) {
+        this.idPlantaCabecItem = idPlantaCabecItem;
     }
 
     public String getDthrRespItem() {

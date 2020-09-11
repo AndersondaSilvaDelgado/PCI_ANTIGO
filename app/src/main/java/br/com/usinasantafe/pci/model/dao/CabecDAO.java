@@ -1,9 +1,13 @@
 package br.com.usinasantafe.pci.model.dao;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.usinasantafe.pci.model.bean.estatica.OSBean;
+import br.com.usinasantafe.pci.model.bean.estatica.OSBaseBean;
 import br.com.usinasantafe.pci.model.bean.variavel.CabecBean;
 import br.com.usinasantafe.pci.model.pst.EspecificaPesquisa;
 import br.com.usinasantafe.pci.util.Tempo;
@@ -13,9 +17,9 @@ public class CabecDAO {
     public CabecDAO() {
     }
 
-    public void salvarCabecAberto(CabecBean cabecBean, OSBean osBean){
+    public void salvarCabecAberto(CabecBean cabecBean, OSBaseBean osBaseBean){
         cabecBean.setIdExtCabec(0L);
-        cabecBean.setIdOSCabec(osBean.getIdOS());
+        cabecBean.setIdOSCabec(osBaseBean.getIdOS());
         cabecBean.setDataCabec(Tempo.getInstance().dataCHora());
         cabecBean.setStatusCabec(1L);
         cabecBean.setStatusApontCabec(1L);
@@ -27,10 +31,10 @@ public class CabecDAO {
         cabecBean.update();
     }
 
-    public void updStatusApont(OSBean osBean){
+    public void updStatusApont(OSBaseBean osBaseBean){
         List<CabecBean> cabecList = cabecAbertoList();
         for(CabecBean cabecBean : cabecList){
-            if(osBean.getIdOS() == cabecBean.getIdOSCabec()){
+            if(osBaseBean.getIdOS() == cabecBean.getIdOSCabec()){
                 cabecBean.setStatusApontCabec(1L);
             }
             else{
@@ -58,8 +62,8 @@ public class CabecDAO {
         return ret;
     }
 
-    public boolean verCabecAbertoOS(OSBean osBean){
-        List<CabecBean> cabecList = cabecAbertoOSList(osBean);
+    public boolean verCabecAbertoOS(OSBaseBean osBaseBean){
+        List<CabecBean> cabecList = cabecAbertoOSList(osBaseBean);
         boolean ret = cabecList.size() > 0;
         cabecList.clear();
         return ret;
@@ -70,6 +74,11 @@ public class CabecDAO {
         boolean ret = cabecList.size() > 0;
         cabecList.clear();
         return ret;
+    }
+
+    public List getListCabecEnvio(ArrayList<Long> idCabecList){
+        CabecBean cabecBean = new CabecBean();
+        return cabecBean.in("idCabec", idCabecList);
     }
 
     public List<CabecBean> cabecApontList(){
@@ -87,11 +96,32 @@ public class CabecDAO {
         return cabecBean.get("statusCabec", 2L);
     }
 
-    public List<CabecBean> cabecAbertoOSList(OSBean osBean){
+    public String dadosEnvioCabec(List cabecList){
+
+        JsonArray jsonArrayCabec = new JsonArray();
+
+        for (int i = 0; i < cabecList.size(); i++) {
+
+            CabecBean cabecBean = (CabecBean) cabecList.get(i);
+            Gson gson = new Gson();
+            jsonArrayCabec.add(gson.toJsonTree(cabecBean, cabecBean.getClass()));
+
+        }
+
+        cabecList.clear();
+
+        JsonObject jsonCabec = new JsonObject();
+        jsonCabec.add("cabecalho", jsonArrayCabec);
+
+        return jsonCabec.toString();
+
+    }
+
+    public List<CabecBean> cabecAbertoOSList(OSBaseBean osBaseBean){
 
         ArrayList pesqArrayList = new ArrayList();
         pesqArrayList.add(getPesqCabecAberto());
-        pesqArrayList.add(getPesqOS(osBean));
+        pesqArrayList.add(getPesqOS(osBaseBean));
 
         CabecBean cabecBean = new CabecBean();
         return cabecBean.get(pesqArrayList);
@@ -121,10 +151,10 @@ public class CabecDAO {
         return pesquisa;
     }
 
-    private EspecificaPesquisa getPesqOS(OSBean osBean){
+    private EspecificaPesquisa getPesqOS(OSBaseBean osBaseBean){
         EspecificaPesquisa pesquisa = new EspecificaPesquisa();
         pesquisa.setCampo("idOSCabec");
-        pesquisa.setValor(osBean.getIdOS());
+        pesquisa.setValor(osBaseBean.getIdOS());
         pesquisa.setTipo(1);
         return pesquisa;
     }

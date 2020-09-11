@@ -9,9 +9,8 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import br.com.usinasantafe.pci.model.bean.estatica.OSBean;
+import br.com.usinasantafe.pci.model.bean.estatica.OSBaseBean;
 import br.com.usinasantafe.pci.model.bean.estatica.PlantaBean;
 import br.com.usinasantafe.pci.model.dao.CabecDAO;
 import br.com.usinasantafe.pci.model.dao.PlantaDAO;
@@ -50,18 +49,18 @@ public class AdapterListOS extends BaseAdapter {
         TextView textViewDescrPlanta = (TextView) view.findViewById(R.id.textViewDescrPlanta);
         TextView textViewPeriodoOS = (TextView) view.findViewById(R.id.textViewPeriodoOS);
 
-        OSBean osBean = (OSBean) itens.get(position);
+        OSBaseBean osBaseBean = (OSBaseBean) itens.get(position);
 
         PlantaDAO plantaDAO = new PlantaDAO();
-        PlantaBean plantaBean = plantaDAO.getPlanta(osBean.getIdPlantaOS());
+        PlantaBean plantaBean = plantaDAO.getPlanta(osBaseBean.getIdPlantaOS());
 
-        textViewNroOS.setText("OS: " + osBean.getNroOS());
+        textViewNroOS.setText("OS: " + osBaseBean.getNroOS());
         textViewCdPlanta.setText(plantaBean.getCodPlanta());
         textViewDescrPlanta.setText(plantaBean.getDescrPlanta());
-        textViewPeriodoOS.setText(osBean.getDescrPeriodo());
+        textViewPeriodoOS.setText(osBaseBean.getDescrPeriodo());
 
         CabecDAO cabecDAO = new CabecDAO();
-        if(cabecDAO.verCabecAbertoOS(osBean)){
+        if(cabecDAO.verCabecAbertoOS(osBaseBean)){
             textViewNroOS.setTextColor(Color.RED);
             textViewCdPlanta.setTextColor(Color.RED);
             textViewDescrPlanta.setTextColor(Color.RED);

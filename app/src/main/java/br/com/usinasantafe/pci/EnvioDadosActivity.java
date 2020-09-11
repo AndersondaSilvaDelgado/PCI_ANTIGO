@@ -30,14 +30,14 @@ public class EnvioDadosActivity extends ActivityGeneric {
         Button buttonSimEnvioDados = (Button) findViewById(R.id.buttonSimEnvioDados);
         Button buttonNaoEnvioDados = (Button) findViewById(R.id.buttonNaoEnvioDados);
 
-        qtde = verEnvio();
-
-        if(qtde == 0){
-            textViewEnvioDados.setText("NÃO CONTÉM CHECKLIST(S) PARA SEREM(S) REENVIADO(S).");
-        }
-        else{
-            textViewEnvioDados.setText("CONTÉM " + qtde + " CHECKLIST(S) PARA SEREM(S) REENVIAD0(S).");
-        }
+//        qtde = verEnvio();
+//
+//        if(qtde == 0){
+//            textViewEnvioDados.setText("NÃO CONTÉM CHECKLIST(S) PARA SEREM(S) REENVIADO(S).");
+//        }
+//        else{
+//            textViewEnvioDados.setText("CONTÉM " + qtde + " CHECKLIST(S) PARA SEREM(S) REENVIAD0(S).");
+//        }
 
         buttonSimEnvioDados.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,50 +89,6 @@ public class EnvioDadosActivity extends ActivityGeneric {
     }
 
     public void onBackPressed()  {
-    }
-
-
-    public int verEnvio(){
-
-        int qtde = 0;
-
-        CabecTO cabecTO = new CabecTO();
-        List cabecList = cabecTO.get("statusCabec", 1L);
-
-        for (int i = 0; i < cabecList.size(); i++) {
-
-            boolean ver = false;
-            cabecTO = (CabecTO) cabecList.get(i);
-            PlantaCabecTO plantaCabecTO = new PlantaCabecTO();
-
-            ArrayList plantaPesqList = new ArrayList();
-            EspecificaPesquisa pesquisa = new EspecificaPesquisa();
-            pesquisa.setCampo("idCabec");
-            pesquisa.setValor(cabecTO.getIdCabec());
-            plantaPesqList.add(pesquisa);
-
-            EspecificaPesquisa pesquisa2 = new EspecificaPesquisa();
-            pesquisa2.setCampo("statusPlantaCabec");
-            pesquisa2.setValor(3L);
-            plantaPesqList.add(pesquisa2);
-
-            List plantaCabecList = plantaCabecTO.get(plantaPesqList);
-            if(plantaCabecList.size() > 0){
-                ver = true;
-            }
-
-            if(ver){
-                qtde = qtde + 1;
-            }
-
-
-        }
-
-        cabecTO = new CabecTO();
-        qtde = qtde + cabecTO.get("statusCabec", 2L).size();
-
-        return qtde;
-
     }
 
 }

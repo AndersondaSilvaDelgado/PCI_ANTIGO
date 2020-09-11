@@ -9,7 +9,7 @@ import br.com.usinasantafe.pci.model.pst.Entidade;
  * Created by anderson on 29/10/2015.
  */
 @DatabaseTable(tableName="tbosest")
-public class OSBean extends Entidade {
+public class OSBaseBean extends Entidade {
 
     private static final long serialVersionUID = 1L;
 
@@ -24,7 +24,7 @@ public class OSBean extends Entidade {
     @DatabaseField
     private String descrPeriodo;
 
-    public OSBean() {
+    public OSBaseBean() {
     }
 
     public Long getIdOS() {

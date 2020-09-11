@@ -98,13 +98,6 @@ public class PostCadGenerico extends AsyncTask<String, Void, String>  {
 		try {
 			Log.i("ECM", "VALOR RECEBIDO --> " + result);
 			if(result.trim().equals("GRAVOU-CLABERTO")){
-				EnvioDadosServ.getInstance().atualPlantaEnviada();
-			}
-			else if(result.trim().equals("GRAVOU-CLFECHADO")){
-				EnvioDadosServ.getInstance().atualOSTermEnviada();
-			}
-			else{
-				EnvioDadosServ.getInstance().falhaEnvio();
 			}
 		} catch (Exception e) {
 			Log.i("ERRO", "Erro2 = " + e);

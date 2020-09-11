@@ -12,10 +12,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import br.com.usinasantafe.pci.model.bean.estatica.FuncBean;
-import br.com.usinasantafe.pci.model.bean.estatica.OSBean;
+import br.com.usinasantafe.pci.model.bean.estatica.OSBaseBean;
 import br.com.usinasantafe.pci.model.bean.variavel.PlantaCabecBean;
 import br.com.usinasantafe.pci.util.EnvioDadosServ;
 
@@ -42,8 +41,8 @@ public class ListaPlantaActivity extends ActivityGeneric {
         FuncBean funcBean = pciContext.getCheckListCTR().getFunc();
         textViewAuditor.setText(funcBean.getMatricFunc() + " - " + funcBean.getNomeFunc());
 
-        OSBean osBean = pciContext.getCheckListCTR().getOS();
-        textViewOS.setText("NRO OS: " + osBean.getNroOS());
+        OSBaseBean osBaseBean = pciContext.getCheckListCTR().getOS();
+        textViewOS.setText("NRO OS: " + osBaseBean.getNroOS());
 
         plantaList = pciContext.getCheckListCTR().retSalvarPlantaCabec();
 

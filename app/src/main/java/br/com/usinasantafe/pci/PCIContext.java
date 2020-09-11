@@ -17,6 +17,7 @@ public class PCIContext extends Application {
 
     private ConfigCTR configCTR;
     private CheckListCTR checkListCTR;
+    private Long idFunc;
 
     public static String versaoAplic = "2.00";
 
@@ -35,4 +36,11 @@ public class PCIContext extends Application {
         return checkListCTR;
     }
 
+    public Long getIdFunc() {
+        return idFunc;
+    }
+
+    public void setIdFunc(Long idFunc) {
+        this.idFunc = idFunc;
+    }
 }

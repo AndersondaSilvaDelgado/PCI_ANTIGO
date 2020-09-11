@@ -9,6 +9,8 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.usinasantafe.pci.model.bean.variavel.OSVarBean;
+
 public class ListaOSFeitaActivity extends ActivityGeneric {
 
     private PCIContext pciContext;
@@ -25,18 +27,14 @@ public class ListaOSFeitaActivity extends ActivityGeneric {
 
         ArrayList<String> itens = new ArrayList<String>();
 
-        OSFeitaTO osFeitaTO = new OSFeitaTO();
-        List osFeitaList = osFeitaTO.all();
+        List<OSVarBean> osList = pciContext.getCheckListCTR().osVarList(pciContext.getIdFunc());
 
-        if(osFeitaList.size() == 0){
-            itens.add("FUNCIONÁRIO SEM O.S. APONTADA NO DIA ATUAL");
+        for(int i = 0; i < osList.size(); i++){
+            OSVarBean osVarBean = osList.get(i);
+            itens.add(osVarBean.getNroOS().toString());
         }
-        else{
-            for(int i = 0; i < osFeitaList.size(); i++){
-                osFeitaTO = (OSFeitaTO) osFeitaList.get(i);
-                itens.add(osFeitaTO.getNroOS().toString());
-            }
-        }
+
+        osList.clear();
 
         AdapterList adapterList = new AdapterList(this, itens);
         listViewOSFeita.setAdapter(adapterList);

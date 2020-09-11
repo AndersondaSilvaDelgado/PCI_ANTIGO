@@ -59,18 +59,18 @@ public class MenuInicialActivity extends ActivityGeneric {
 
         pciContext.getCheckListCTR().deleteCabecRespAntiga();
 
-        if(verEnvio()){
-            AlertDialog.Builder alerta = new AlertDialog.Builder(MenuInicialActivity.this);
-            alerta.setTitle("ATENCAO");
-            alerta.setMessage("EXISTE DADOS PARA SERENS ENVIADOS. POR FAVOR, REENVIE OS DADOS.");
-            alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-
-                }
-            });
-            alerta.show();
-        }
+//        if(verEnvio()){
+//            AlertDialog.Builder alerta = new AlertDialog.Builder(MenuInicialActivity.this);
+//            alerta.setTitle("ATENCAO");
+//            alerta.setMessage("EXISTE DADOS PARA SERENS ENVIADOS. POR FAVOR, REENVIE OS DADOS.");
+//            alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int which) {
+//
+//                }
+//            });
+//            alerta.show();
+//        }
         listarMenuInicial();
 
     }
@@ -139,16 +139,6 @@ public class MenuInicialActivity extends ActivityGeneric {
     public void onBackPressed()  {
     }
 
-    public boolean verEnvio() {
-
-        if (!EnvioDadosServ.getInstance().verBolFechado()
-                && !EnvioDadosServ.getInstance().verBolAberto()) {
-            return false;
-        } else {
-            return true;
-        }
-
-    }
 
     public void teste(){
 //

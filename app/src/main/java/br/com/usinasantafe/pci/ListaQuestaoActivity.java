@@ -10,13 +10,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import br.com.usinasantafe.pci.model.bean.estatica.FuncBean;
 import br.com.usinasantafe.pci.model.bean.estatica.ItemBean;
-import br.com.usinasantafe.pci.model.bean.estatica.OSBean;
+import br.com.usinasantafe.pci.model.bean.estatica.OSBaseBean;
 import br.com.usinasantafe.pci.util.VerifDadosServ;
-import br.com.usinasantafe.pci.model.pst.EspecificaPesquisa;
 
 public class ListaQuestaoActivity extends ActivityGeneric {
 
@@ -39,8 +37,8 @@ public class ListaQuestaoActivity extends ActivityGeneric {
         FuncBean funcBean = pciContext.getCheckListCTR().getFunc();
         textViewDadosAuditor.setText(funcBean.getMatricFunc() + " - " + funcBean.getNomeFunc());
 
-        OSBean osBean = pciContext.getCheckListCTR().getOS();
-        textViewDadosOS.setText("NRO OS: " + osBean.getNroOS());
+        OSBaseBean osBaseBean = pciContext.getCheckListCTR().getOS();
+        textViewDadosOS.setText("NRO OS: " + osBaseBean.getNroOS());
 
         itemArrayList = pciContext.getCheckListCTR().getItemArrayList();
 

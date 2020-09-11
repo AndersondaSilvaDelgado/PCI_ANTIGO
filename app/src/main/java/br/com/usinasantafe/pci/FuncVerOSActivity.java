@@ -7,9 +7,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import java.util.List;
-
-
 public class FuncVerOSActivity extends ActivityGeneric {
 
     private PCIContext pciContext;
@@ -33,17 +30,31 @@ public class FuncVerOSActivity extends ActivityGeneric {
 
                     Long matricFunc = Long.parseLong(editTextPadrao.getText().toString());
 
-                    FuncTO funcTO = new FuncTO();
-                    List listaFuncPesq = funcTO.get("matricFunc", matricFunc);
+                    if(pciContext.getCheckListCTR().verFunc(matricFunc)){
 
-                    if(listaFuncPesq.size() > 0){
+                        if(pciContext.getCheckListCTR().verOSFunc(pciContext.getCheckListCTR().getFunc(matricFunc).getIdFunc())){
 
-                        FuncTO funcTOPesq = (FuncTO) listaFuncPesq.get(0);
-                        pciContext.setFuncVer(funcTOPesq.getIdFunc());
+                            pciContext.setIdFunc(pciContext.getCheckListCTR().getFunc(matricFunc).getIdFunc());
+                            Intent it = new Intent(  FuncVerOSActivity.this, ListaOSFeitaActivity.class);
+                            startActivity(it);
+                            finish();
 
-                        Intent it = new Intent(  FuncVerOSActivity.this, ListaOSFeitaActivity.class);
-                        startActivity(it);
+                        }
+                        else{
 
+                            AlertDialog.Builder alerta = new AlertDialog.Builder(FuncVerOSActivity.this);
+                            alerta.setTitle("ATENÇÃO");
+                            alerta.setMessage("FUNCIONÁRIO SEM O.S. APONTADA NO DIA ATUAL");
+
+                            alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                }
+                            });
+                            alerta.show();
+
+                        }
 
                     }
                     else{
@@ -55,7 +66,7 @@ public class FuncVerOSActivity extends ActivityGeneric {
                         alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                editTextPadrao.setText("");
+
                             }
                         });
                         alerta.show();

@@ -6,16 +6,18 @@ import com.j256.ormlite.table.DatabaseTable;
 import br.com.usinasantafe.pci.model.pst.Entidade;
 
 @DatabaseTable(tableName="tbosvar")
-public class OSBean extends Entidade {
+public class OSVarBean extends Entidade {
 
     private static final long serialVersionUID = 1L;
 
     @DatabaseField(id=true)
     private Long nroOS;
     @DatabaseField
-    private String dataReal;
+    private Long idFunc;
+    @DatabaseField
+    private String data;
 
-    public OSBean() {
+    public OSVarBean() {
     }
 
     public Long getNroOS() {
@@ -26,11 +28,19 @@ public class OSBean extends Entidade {
         this.nroOS = nroOS;
     }
 
-    public String getDataReal() {
-        return dataReal;
+    public Long getIdFunc() {
+        return idFunc;
     }
 
-    public void setDataReal(String dataReal) {
-        this.dataReal = dataReal;
+    public void setIdFunc(Long idFunc) {
+        this.idFunc = idFunc;
+    }
+
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
     }
 }
