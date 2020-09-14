@@ -76,7 +76,7 @@ public class VerifDadosServ {
 
                     JSONObject jObj = new JSONObject(result);
                     JSONArray jsonArray = jObj.getJSONArray("dados");
-                    Class classe = Class.forName(urlsConexaoHttp.localPSTEstatica + "ItemTO");
+                    Class classe = Class.forName(urlsConexaoHttp.localPSTEstatica + "ItemBean");
 
                     if (jsonArray.length() > 0) {
 

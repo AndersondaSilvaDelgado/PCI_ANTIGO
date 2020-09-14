@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.usinasantafe.pci.model.bean.estatica.ItemBean;
-import br.com.usinasantafe.pci.model.bean.variavel.CabecBean;
 import br.com.usinasantafe.pci.model.bean.variavel.RespItemBean;
 import br.com.usinasantafe.pci.model.pst.EspecificaPesquisa;
 import br.com.usinasantafe.pci.util.Tempo;
@@ -39,7 +38,7 @@ public class RespItemDAO {
 
     public List getListRespItemEnvio(ArrayList<Long> idPlantaCabecList){
         RespItemBean respItemBean = new RespItemBean();
-        return respItemBean.in("idPlantaCabec", idPlantaCabecList);
+        return respItemBean.in("idPlantaCabecItem", idPlantaCabecList);
     }
 
     public RespItemBean getRespItem(Long idCabec, Long idItem){
@@ -73,7 +72,7 @@ public class RespItemDAO {
     public void deleteItemCabec(Long idCabec){
         List<RespItemBean> respItemList = respItemList(idCabec);
         for(int i = 0; i < respItemList.size(); i++){
-            RespItemBean respItemBean = (RespItemBean) respItemList.get(i);
+            RespItemBean respItemBean = respItemList.get(i);
             respItemBean.delete();
         }
     }
@@ -81,7 +80,7 @@ public class RespItemDAO {
     public void deleteItemCabec(ArrayList<Long> idCabecList){
         List<RespItemBean> respItemList = respItemList(idCabecList);
         for(int i = 0; i < respItemList.size(); i++){
-            RespItemBean respItemBean = (RespItemBean) respItemList.get(i);
+            RespItemBean respItemBean = respItemList.get(i);
             respItemBean.delete();
         }
     }

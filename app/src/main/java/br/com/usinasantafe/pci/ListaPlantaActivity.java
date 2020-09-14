@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -12,9 +13,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import br.com.usinasantafe.pci.model.bean.estatica.FuncBean;
 import br.com.usinasantafe.pci.model.bean.estatica.OSBaseBean;
+import br.com.usinasantafe.pci.model.bean.variavel.CabecBean;
 import br.com.usinasantafe.pci.model.bean.variavel.PlantaCabecBean;
 import br.com.usinasantafe.pci.util.EnvioDadosServ;
 
@@ -37,6 +40,8 @@ public class ListaPlantaActivity extends ActivityGeneric {
         Button buttonRetornarChecklist = (Button) findViewById(R.id.buttonRetornarChecklist);
 
         pciContext = (PCIContext) getApplication();
+
+        teste();
 
         FuncBean funcBean = pciContext.getCheckListCTR().getFunc();
         textViewAuditor.setText(funcBean.getMatricFunc() + " - " + funcBean.getNomeFunc());
@@ -265,6 +270,7 @@ public class ListaPlantaActivity extends ActivityGeneric {
             public void onClick(View v) {
                 Intent it = new Intent(ListaPlantaActivity.this, ListaOSActivity.class);
                 startActivity(it);
+                finish();
             }
         });
 
@@ -272,6 +278,28 @@ public class ListaPlantaActivity extends ActivityGeneric {
     }
 
     public void onBackPressed()  {
+    }
+
+    public void teste() {
+
+        CabecBean cabecBean = new CabecBean();
+        List cabecList = cabecBean.all();
+
+        for (int i = 0; i < cabecList.size(); i++) {
+
+            cabecBean = (CabecBean) cabecList.get(i);
+            Log.i("PCI", "CABEC");
+            Log.i("PCI", "idCabec = " + cabecBean.getIdCabec());
+            Log.i("PCI", "idExtCabec = " + cabecBean.getIdExtCabec());
+            Log.i("PCI", "osCabec = " + cabecBean.getIdOSCabec());
+            Log.i("PCI", "idFuncCabec = " + cabecBean.getIdFuncCabec());
+            Log.i("PCI", "dataCabec = " + cabecBean.getDataCabec());
+            Log.i("PCI", "statusCabec = " + cabecBean.getStatusCabec());
+            Log.i("PCI", "statusApontCabec = " + cabecBean.getStatusApontCabec());
+
+
+        }
+
     }
 
 }

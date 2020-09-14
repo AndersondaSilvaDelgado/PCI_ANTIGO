@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 
 import br.com.usinasantafe.pci.model.bean.estatica.FuncBean;
+import br.com.usinasantafe.pci.model.bean.variavel.CabecBean;
 import br.com.usinasantafe.pci.util.ConexaoWeb;
 
 public class FuncionarioActivity extends ActivityGeneric {
@@ -94,6 +95,7 @@ public class FuncionarioActivity extends ActivityGeneric {
                     if(pciContext.getCheckListCTR().verFunc(matricFunc)){
 
                         FuncBean funcBean = pciContext.getCheckListCTR().getFunc(matricFunc);
+                        pciContext.getCheckListCTR().setCabecBean(new CabecBean());
                         pciContext.getCheckListCTR().getCabecBean().setIdFuncCabec(funcBean.getIdFunc());
 
                         progressBar = new ProgressDialog(v.getContext());

@@ -2,10 +2,7 @@ package br.com.usinasantafe.pci.control;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +25,6 @@ import br.com.usinasantafe.pci.model.dao.PlantaCabecDAO;
 import br.com.usinasantafe.pci.model.dao.PlantaDAO;
 import br.com.usinasantafe.pci.model.dao.RespItemDAO;
 import br.com.usinasantafe.pci.model.dao.ServicoDAO;
-import br.com.usinasantafe.pci.model.pst.EspecificaPesquisa;
 import br.com.usinasantafe.pci.util.AtualDadosServ;
 
 public class CheckListCTR {
@@ -393,6 +389,13 @@ public class CheckListCTR {
     public void atualDadosPlanta(Context telaAtual, Class telaProx, ProgressDialog progressDialog){
         ArrayList operadorArrayList = new ArrayList();
         operadorArrayList.add("PlantaBean");
+        AtualDadosServ.getInstance().atualGenericoBD(telaAtual, telaProx, progressDialog, operadorArrayList);
+    }
+
+
+    public void atualDadosServico(Context telaAtual, Class telaProx, ProgressDialog progressDialog){
+        ArrayList operadorArrayList = new ArrayList();
+        operadorArrayList.add("ServicoBean");
         AtualDadosServ.getInstance().atualGenericoBD(telaAtual, telaProx, progressDialog, operadorArrayList);
     }
 

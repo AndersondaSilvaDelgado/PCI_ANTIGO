@@ -48,8 +48,8 @@ public class ListaQuestaoActivity extends ActivityGeneric {
             progressBar.setMessage("Atualizando Plantas...");
             progressBar.show();
 
-            VerifDadosServ.getInstance().verDados("", "Planta"
-                    , ListaQuestaoActivity.this, ListaQuestaoActivity.class, progressBar);
+            pciContext.getCheckListCTR().atualDadosPlanta(ListaQuestaoActivity.this, ListaQuestaoActivity.class, progressBar);
+
         }
 
         if(pciContext.getCheckListCTR().verServico(itemArrayList)){
@@ -58,8 +58,8 @@ public class ListaQuestaoActivity extends ActivityGeneric {
             progressBar.setMessage("Atualizando Itens...");
             progressBar.show();
 
-            VerifDadosServ.getInstance().verDados("", "Servico"
-                    , ListaQuestaoActivity.this, ListaQuestaoActivity.class, progressBar);
+            pciContext.getCheckListCTR().atualDadosServico(ListaQuestaoActivity.this, ListaQuestaoActivity.class, progressBar);
+
         }
 
         AdapterListQuestao adapterListQuestao = new AdapterListQuestao(this, itemArrayList);

@@ -24,7 +24,7 @@ public class PlantaCabecDAO {
     public void updStatusApontPlanta(PlantaCabecBean plantaCabecBean, Long idCabec){
         List<PlantaCabecBean> plantaCabecList = plantaCabecList(idCabec);
         for(PlantaCabecBean plantaCabec : plantaCabecList){
-            if(plantaCabec.getIdPlanta() == plantaCabecBean.getIdPlanta()){
+            if(plantaCabec.getIdPlanta().equals(plantaCabecBean.getIdPlanta())){
                 plantaCabec.setStatusApontPlanta(1L);
                 plantaCabec.update();
             }

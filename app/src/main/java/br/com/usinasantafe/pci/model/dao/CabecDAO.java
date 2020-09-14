@@ -34,7 +34,7 @@ public class CabecDAO {
     public void updStatusApont(OSBaseBean osBaseBean){
         List<CabecBean> cabecList = cabecAbertoList();
         for(CabecBean cabecBean : cabecList){
-            if(osBaseBean.getIdOS() == cabecBean.getIdOSCabec()){
+            if(osBaseBean.getIdOS().equals(cabecBean.getIdOSCabec())){
                 cabecBean.setStatusApontCabec(1L);
             }
             else{

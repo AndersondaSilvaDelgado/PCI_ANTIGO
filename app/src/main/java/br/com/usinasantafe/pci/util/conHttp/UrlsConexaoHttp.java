@@ -14,10 +14,10 @@ public class UrlsConexaoHttp {
 
 	public static String put = "?versao=" + PCIContext.versaoAplic.replace(".", "_");
 
-	public static String FuncTO = urlPrincipal + "funcionario.php" + put;
-	public static String ServicoTO = urlPrincipal + "servico.php" + put;
-	public static String PlantaTO = urlPrincipal + "planta.php" + put;
-	public static String ComponenteTO = urlPrincipal + "componente.php" + put;
+	public static String FuncBean = urlPrincipal + "funcionario.php" + put;
+	public static String ServicoBean = urlPrincipal + "servico.php" + put;
+	public static String PlantaBean = urlPrincipal + "planta.php" + put;
+	public static String ComponenteBean = urlPrincipal + "componente.php" + put;
 
 	
 	public UrlsConexaoHttp() {
@@ -30,17 +30,11 @@ public class UrlsConexaoHttp {
 	public String urlVerifica(String classe) {
 		String retorno = "";
 		if (classe.equals("OS")) {
-			retorno = urlPrincEnvio + "os.php";
+			retorno = urlPrincEnvio + "os.php" + put;
 		} else if (classe.equals("Item")) {
-			retorno = urlPrincEnvio + "itemos.php";
-		} else if (classe.equals("Planta")) {
-			retorno = urlPrincEnvio + "planta.php";
-		} else if (classe.equals("Servico")) {
-			retorno = urlPrincEnvio + "servico.php";
+			retorno = urlPrincEnvio + "itemos.php" + put;
 		} else if (classe.equals("Atualiza")) {
-			retorno = urlPrincEnvio + "atualizaaplic.php";
-		} else if (classe.equals("Funcionario")) {
-			retorno = urlPrincEnvio + "funcionario.php";
+			retorno = urlPrincEnvio + "atualaplic.php" + put;
 		}
 		return retorno;
 	}

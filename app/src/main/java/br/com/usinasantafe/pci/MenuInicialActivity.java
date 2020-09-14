@@ -59,18 +59,18 @@ public class MenuInicialActivity extends ActivityGeneric {
 
         pciContext.getCheckListCTR().deleteCabecRespAntiga();
 
-//        if(verEnvio()){
-//            AlertDialog.Builder alerta = new AlertDialog.Builder(MenuInicialActivity.this);
-//            alerta.setTitle("ATENCAO");
-//            alerta.setMessage("EXISTE DADOS PARA SERENS ENVIADOS. POR FAVOR, REENVIE OS DADOS.");
-//            alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-//                @Override
-//                public void onClick(DialogInterface dialog, int which) {
-//
-//                }
-//            });
-//            alerta.show();
-//        }
+        if(pciContext.getCheckListCTR().verDadosEnvio()){
+            AlertDialog.Builder alerta = new AlertDialog.Builder(MenuInicialActivity.this);
+            alerta.setTitle("ATENCAO");
+            alerta.setMessage("EXISTE DADOS PARA SERENS ENVIADOS. POR FAVOR, REENVIE OS DADOS.");
+            alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            });
+            alerta.show();
+        }
         listarMenuInicial();
 
     }
@@ -99,22 +99,26 @@ public class MenuInicialActivity extends ActivityGeneric {
                     if(pciContext.getCheckListCTR().hasElementFunc()) {
                         Intent it = new Intent(MenuInicialActivity.this, FuncionarioActivity.class);
                         startActivity(it);
+                        finish();
                     }
 
                 } else if (position == 1) {
 
                     Intent it = new Intent(MenuInicialActivity.this, EnvioDadosActivity.class);
                     startActivity(it);
+                    finish();
 
                 } else if (position == 2) {
 
                     Intent it = new Intent(MenuInicialActivity.this, ConfigActivity.class);
                     startActivity(it);
+                    finish();
 
                 } else if (position == 3) {
 
                     Intent it = new Intent(MenuInicialActivity.this, FuncVerOSActivity.class);
                     startActivity(it);
+                    finish();
 
                 } else if (position == 4) {
 

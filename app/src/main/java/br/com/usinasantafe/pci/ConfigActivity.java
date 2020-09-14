@@ -85,6 +85,7 @@ public class ConfigActivity extends ActivityGeneric {
 
                       Intent it = new Intent( ConfigActivity.this, MenuInicialActivity.class);
                       startActivity(it);
+                      finish();
 
                   }
                   else{
@@ -111,6 +112,7 @@ public class ConfigActivity extends ActivityGeneric {
             public void onClick(View v) {
                 Intent it = new Intent(ConfigActivity.this, MenuInicialActivity.class);
                 startActivity(it);
+                finish();
             }
 
         });

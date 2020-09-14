@@ -97,7 +97,7 @@ public class AtualDadosServ {
 	        for (Field field : retClasse.getDeclaredFields()) {
 	            String campo = field.getName();
 	            Log.i("ERRO", "Campo = " + campo);
-	            if(campo.contains("TO")){
+	            if(campo.contains("Bean")){
 	            	tabAtualArrayList.add(campo);
 	            }
 	            
