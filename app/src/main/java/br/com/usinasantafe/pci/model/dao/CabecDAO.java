@@ -55,13 +55,6 @@ public class CabecDAO {
         return cabecBean;
     }
 
-    public boolean verCabecAberto(){
-        List<CabecBean> cabecList = cabecAbertoList();
-        boolean ret = cabecList.size() > 0;
-        cabecList.clear();
-        return ret;
-    }
-
     public boolean verCabecAbertoOS(OSBaseBean osBaseBean){
         List<CabecBean> cabecList = cabecAbertoOSList(osBaseBean);
         boolean ret = cabecList.size() > 0;
@@ -128,6 +121,17 @@ public class CabecDAO {
 
     }
 
+    public List<CabecBean> cabecAbertoOficSecaoList(Long idOficSecao){
+
+        ArrayList pesqArrayList = new ArrayList();
+        pesqArrayList.add(getPesqCabecAberto());
+        pesqArrayList.add(getPesqIdOficSecao(idOficSecao));
+
+        CabecBean cabecBean = new CabecBean();
+        return cabecBean.get(pesqArrayList);
+
+    }
+
     public ArrayList<Long> deleteCabec(){
         ArrayList<Long> idCabecList = new ArrayList<>();
         if(verCabecFechado()){
@@ -155,6 +159,14 @@ public class CabecDAO {
         EspecificaPesquisa pesquisa = new EspecificaPesquisa();
         pesquisa.setCampo("idOSCabec");
         pesquisa.setValor(osBaseBean.getIdOS());
+        pesquisa.setTipo(1);
+        return pesquisa;
+    }
+
+    private EspecificaPesquisa getPesqIdOficSecao(Long idOficSecao){
+        EspecificaPesquisa pesquisa = new EspecificaPesquisa();
+        pesquisa.setCampo("idOficSecaoCabec");
+        pesquisa.setValor(idOficSecao);
         pesquisa.setTipo(1);
         return pesquisa;
     }

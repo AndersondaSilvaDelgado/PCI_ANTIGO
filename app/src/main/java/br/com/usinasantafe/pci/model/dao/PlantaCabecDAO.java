@@ -112,6 +112,38 @@ public class PlantaCabecDAO {
 
     }
 
+    public ArrayList<Long> idPlantaCabecAbertaList(Long idCabec){
+
+        List<PlantaCabecBean> plantaCabecList = plantaCabecList(idCabec);
+
+        ArrayList<Long> idPlantaCabecList = new ArrayList<>();
+        for (int i = 0; i < plantaCabecList.size(); i++) {
+            PlantaCabecBean plantaCabecBean = plantaCabecList.get(i);
+            if(plantaCabecBean.getStatusPlantaCabec() < 2) {
+                idPlantaCabecList.add(plantaCabecBean.getIdPlantaCabec());
+            }
+        }
+
+        plantaCabecList.clear();
+        return idPlantaCabecList;
+
+    }
+
+    public boolean verPlantaCabecFechada(Long idCabec){
+
+        List<PlantaCabecBean> plantaCabecList = plantaCabecList(idCabec);
+        boolean ver = false;
+        for (int i = 0; i < plantaCabecList.size(); i++) {
+            PlantaCabecBean plantaCabecBean = plantaCabecList.get(i);
+            if(plantaCabecBean.getStatusPlantaCabec() >= 2) {
+                ver = true;
+            }
+        }
+        plantaCabecList.clear();
+        return ver;
+
+    }
+
     public boolean verPlantaCabec(Long idCabec){
         List<PlantaCabecBean> plantaCabecList = plantaCabecList(idCabec);
         boolean ret = plantaCabecList.size() > 0;
@@ -120,6 +152,14 @@ public class PlantaCabecDAO {
     }
 
     public void deletePlantaCabec(Long idCabec){
+        List<PlantaCabecBean> plantaCabecList = plantaCabecList(idCabec);
+        for(int i = 0; i < plantaCabecList.size(); i++){
+            PlantaCabecBean plantaCabecBean = (PlantaCabecBean) plantaCabecList.get(i);
+            plantaCabecBean.delete();
+        }
+    }
+
+    public void deletePlantaCabecAberto(Long idCabec){
         List<PlantaCabecBean> plantaCabecList = plantaCabecList(idCabec);
         for(int i = 0; i < plantaCabecList.size(); i++){
             PlantaCabecBean plantaCabecBean = (PlantaCabecBean) plantaCabecList.get(i);
@@ -143,6 +183,11 @@ public class PlantaCabecDAO {
         PlantaCabecBean plantaCabecBean = plantaCabecList.get(0);
         plantaCabecList.clear();
         return plantaCabecBean;
+    }
+
+    public List<PlantaCabecBean> plantaCabecList(ArrayList<Long> idPlantaCabecList){
+        PlantaCabecBean plantaCabecBean = new PlantaCabecBean();
+        return plantaCabecBean.in("idPlantaCabec", idPlantaCabecList);
     }
 
     public List<PlantaCabecBean> plantaCabecApontList(){

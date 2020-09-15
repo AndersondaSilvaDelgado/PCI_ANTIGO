@@ -20,6 +20,8 @@ public class CabecBean extends Entidade {
     @DatabaseField
     private Long idOSCabec;
     @DatabaseField
+    private Long idOficSecaoCabec;
+    @DatabaseField
     private Long idFuncCabec;
     @DatabaseField
     private String dataCabec;
@@ -57,6 +59,14 @@ public class CabecBean extends Entidade {
 
     public void setIdFuncCabec(Long idFuncCabec) {
         this.idFuncCabec = idFuncCabec;
+    }
+
+    public Long getIdOficSecaoCabec() {
+        return idOficSecaoCabec;
+    }
+
+    public void setIdOficSecaoCabec(Long idOficSecaoCabec) {
+        this.idOficSecaoCabec = idOficSecaoCabec;
     }
 
     public Long getStatusCabec() {

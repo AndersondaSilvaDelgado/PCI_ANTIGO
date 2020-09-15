@@ -85,6 +85,14 @@ public class RespItemDAO {
         }
     }
 
+    public void deleteItemPlantaCabec(ArrayList<Long> idPlantaCabecList){
+        List<RespItemBean> respItemList = getListRespItemEnvio(idPlantaCabecList);
+        for(int i = 0; i < respItemList.size(); i++){
+            RespItemBean respItemBean = respItemList.get(i);
+            respItemBean.delete();
+        }
+    }
+
     public List respItemList(ArrayList<Long> idCabecList){
         RespItemBean respItemBean = new RespItemBean();
         return respItemBean.in("idCabRespItem", idCabecList);

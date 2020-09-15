@@ -140,6 +140,40 @@ public class CheckListCTR {
 
     }
 
+    public void deleteCheckListAberta(){
+
+        OSDAO osDAO = new OSDAO();
+        List<OSBaseBean> osBaseList = osDAO.osBaseList();
+
+        CabecDAO cabecDAO = new CabecDAO();
+        List<CabecBean> cabecList = cabecDAO.cabecAbertoOficSecaoList(cabecBean.getIdOficSecaoCabec());
+
+        for(CabecBean cabecBean : cabecList){
+            boolean ver = true;
+            for(OSBaseBean osBaseBean : osBaseList){
+                if(cabecBean.getIdOSCabec().equals(osBaseBean.getIdOS())){
+                    ver = false;
+                }
+            }
+            if(ver){
+                PlantaCabecDAO plantaCabecDAO = new PlantaCabecDAO();
+                ArrayList<Long> idPlantaCabecAbertaList = plantaCabecDAO.idPlantaCabecAbertaList(cabecBean.getIdCabec());
+                if(idPlantaCabecAbertaList.size() > 0){
+                    RespItemDAO respItemDAO = new RespItemDAO();
+                    respItemDAO.deleteItemPlantaCabec(idPlantaCabecAbertaList);
+                    plantaCabecDAO.plantaCabecList(idPlantaCabecAbertaList);
+                }
+                if(!plantaCabecDAO.verPlantaCabecFechada(cabecBean.getIdCabec())){
+                    cabecDAO.deleteCabec(cabecBean);
+                }
+                else{
+                    cabecDAO.updStatusFechado(cabecBean);
+                }
+            }
+        }
+
+    }
+
     ///////////////////////////////////////////////////////////////////////////////////////////////
 
     ////////////////////////////// VERIFICAR DADOS /////////////////////////////////////

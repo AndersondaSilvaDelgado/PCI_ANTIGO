@@ -97,6 +97,7 @@ public class FuncionarioActivity extends ActivityGeneric {
                         FuncBean funcBean = pciContext.getCheckListCTR().getFunc(matricFunc);
                         pciContext.getCheckListCTR().setCabecBean(new CabecBean());
                         pciContext.getCheckListCTR().getCabecBean().setIdFuncCabec(funcBean.getIdFunc());
+                        pciContext.getCheckListCTR().getCabecBean().setIdOficSecaoCabec(funcBean.getIdOficSecaoFunc());
 
                         progressBar = new ProgressDialog(v.getContext());
                         progressBar.setCancelable(true);
