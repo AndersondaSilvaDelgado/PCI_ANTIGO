@@ -97,7 +97,8 @@ public class PostCadGenerico extends AsyncTask<String, Void, String>  {
 
 		try {
 			Log.i("ECM", "VALOR RECEBIDO --> " + result);
-			if(result.trim().equals("GRAVOU-CLABERTO")){
+			if(result.trim().startsWith("GRAVOU-CHECKLIST")){
+				EnvioDadosServ.getInstance().recDados(result.trim());
 			}
 		} catch (Exception e) {
 			Log.i("ERRO", "Erro2 = " + e);

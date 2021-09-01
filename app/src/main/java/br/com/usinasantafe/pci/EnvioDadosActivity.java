@@ -18,6 +18,7 @@ import br.com.usinasantafe.pci.model.pst.EspecificaPesquisa;
 
 public class EnvioDadosActivity extends ActivityGeneric {
 
+    private PCIContext pciContext;
     private ProgressDialog progressBar;
     private int qtde;
 
@@ -26,18 +27,21 @@ public class EnvioDadosActivity extends ActivityGeneric {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_envio_dados);
 
+        pciContext = (PCIContext) getApplication();
+
         TextView textViewEnvioDados = (TextView) findViewById(R.id.textViewEnvioDados);
         Button buttonSimEnvioDados = (Button) findViewById(R.id.buttonSimEnvioDados);
         Button buttonNaoEnvioDados = (Button) findViewById(R.id.buttonNaoEnvioDados);
 
-//        qtde = verEnvio();
-//
-//        if(qtde == 0){
-//            textViewEnvioDados.setText("NÃO CONTÉM CHECKLIST(S) PARA SEREM(S) REENVIADO(S).");
-//        }
-//        else{
-//            textViewEnvioDados.setText("CONTÉM " + qtde + " CHECKLIST(S) PARA SEREM(S) REENVIAD0(S).");
-//        }
+        qtde = 0;
+
+        if(!pciContext.getCheckListCTR().verDadosEnvio()){
+            textViewEnvioDados.setText("NÃO CONTÉM CHECKLIST(S) PARA SEREM(S) REENVIADO(S).");
+        }
+        else{
+            qtde = pciContext.getCheckListCTR().qtdeCabecEnvio();
+            textViewEnvioDados.setText("CONTÉM " + qtde + " CHECKLIST(S) PARA SEREM(S) REENVIAD0(S).");
+        }
 
         buttonSimEnvioDados.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -4,11 +4,15 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import br.com.usinasantafe.pci.model.bean.estatica.OSBaseBean;
 import br.com.usinasantafe.pci.model.bean.variavel.CabecBean;
+import br.com.usinasantafe.pci.model.bean.variavel.PlantaCabecBean;
 import br.com.usinasantafe.pci.model.pst.EspecificaPesquisa;
 import br.com.usinasantafe.pci.util.Tempo;
 
@@ -18,7 +22,6 @@ public class CabecDAO {
     }
 
     public void salvarCabecAberto(CabecBean cabecBean, OSBaseBean osBaseBean){
-        cabecBean.setIdExtCabec(0L);
         cabecBean.setIdOSCabec(osBaseBean.getIdOS());
         cabecBean.setDataCabec(Tempo.getInstance().dataCHora());
         cabecBean.setStatusCabec(1L);
@@ -69,7 +72,19 @@ public class CabecDAO {
         return ret;
     }
 
-    public List getListCabecEnvio(ArrayList<Long> idCabecList){
+    public boolean verCabec(Long idCabec){
+        List<CabecBean> cabecList = cabecList(idCabec);
+        boolean ret = cabecList.size() > 0;
+        cabecList.clear();
+        return ret;
+    }
+
+    public List<CabecBean> cabecList(Long idCabec){
+        CabecBean cabecBean = new CabecBean();
+        return cabecBean.get("idCabec", idCabec);
+    }
+
+    public List<CabecBean> cabecEnvioList(ArrayList<Long> idCabecList){
         CabecBean cabecBean = new CabecBean();
         return cabecBean.in("idCabec", idCabecList);
     }
@@ -145,6 +160,11 @@ public class CabecDAO {
             }
         }
         return idCabecList;
+    }
+
+    public CabecBean getCabec(JSONObject objCabec){
+        Gson gsonCabec = new Gson();
+        return gsonCabec.fromJson(objCabec.toString(), CabecBean.class);
     }
 
     private EspecificaPesquisa getPesqCabecAberto(){

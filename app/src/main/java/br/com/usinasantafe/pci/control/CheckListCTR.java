@@ -4,6 +4,11 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.util.Log;
 
+import com.google.gson.Gson;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,7 +71,7 @@ public class CheckListCTR {
             }
         }
         else{
-            plantaCabecArrayList = plantaCabecDAO.plantaCabecArrayList(cabecDAO.getCabecApont().getIdCabec());
+            plantaCabecArrayList = plantaCabecDAO.plantaCabecAbertaArrayList(cabecDAO.getCabecApont().getIdCabec());
         }
 
         return plantaCabecArrayList;
@@ -161,7 +166,7 @@ public class CheckListCTR {
                 if(idPlantaCabecAbertaList.size() > 0){
                     RespItemDAO respItemDAO = new RespItemDAO();
                     respItemDAO.deleteItemPlantaCabec(idPlantaCabecAbertaList);
-                    plantaCabecDAO.plantaCabecList(idPlantaCabecAbertaList);
+                    plantaCabecDAO.deletePlantaCabecAberto(cabecBean.getIdCabec());
                 }
                 if(!plantaCabecDAO.verPlantaCabecFechada(cabecBean.getIdCabec())){
                     cabecDAO.deleteCabec(cabecBean);
@@ -217,7 +222,7 @@ public class CheckListCTR {
         boolean verServico = false;
         ServicoDAO servicoDAO = new ServicoDAO();
         for(int i = 0; i < itemList.size(); i++){
-            ItemBean itemBean = (ItemBean) itemList.get(i);
+            ItemBean itemBean = itemList.get(i);
             verServico = servicoDAO.verServico(itemBean.getIdServicoItem());
         }
         return verServico;
@@ -437,18 +442,74 @@ public class CheckListCTR {
 
     ///////////////////////////////////////ENVIO DE DADOS////////////////////////////////////////////
 
+    public int qtdeCabecEnvio(){
+
+        PlantaCabecDAO plantaCabecDAO = new PlantaCabecDAO();
+        CabecDAO cabecDAO = new CabecDAO();
+
+        ArrayList<Long> idCabecList = plantaCabecDAO.idCabecPlantaEnvioList();
+        return cabecDAO.cabecEnvioList(idCabecList).size() + 1;
+
+    }
+
     public String dadosEnvio() {
 
         PlantaCabecDAO plantaCabecDAO = new PlantaCabecDAO();
         CabecDAO cabecDAO = new CabecDAO();
         RespItemDAO respItemDAO = new RespItemDAO();
+
         ArrayList<Long> idCabecList = plantaCabecDAO.idCabecPlantaEnvioList();
-        String cabec = cabecDAO.dadosEnvioCabec(cabecDAO.getListCabecEnvio(idCabecList));
+        String cabec = cabecDAO.dadosEnvioCabec(cabecDAO.cabecEnvioList(idCabecList));
 
-        ArrayList<Long> idPLantaCabecList = plantaCabecDAO.idPlantaCabecEnvioList();
-        String item = respItemDAO.dadosEnvioRespItem(respItemDAO.getListRespItemEnvio(idPLantaCabecList));
+        ArrayList<Long> idPlantaCabecList = plantaCabecDAO.idPlantaCabecEnvioList();
+        String item = respItemDAO.dadosEnvioRespItem(respItemDAO.getListRespItemEnvio(idPlantaCabecList));
 
-        return cabec + "_" + item;
+        String planta = plantaCabecDAO.dadosEnvioPlantaCabec(plantaCabecDAO.plantaCabecEnvioList());
+
+        return cabec + "_" + planta + "#" + item;
+
+    }
+
+    public void recDados(String retorno){
+
+        try{
+
+            int pos1 = retorno.indexOf("_") + 1;
+            int pos2 = retorno.indexOf("#") + 1;
+
+            String objPrinc = retorno.substring(pos1, pos2);
+            String objSeg = retorno.substring(pos2);
+
+            JSONObject jObjCabec = new JSONObject(objPrinc);
+            JSONArray jsonArrayCabec = jObjCabec.getJSONArray("cabecalho");
+
+            JSONObject jObjPlanta = new JSONObject(objSeg);
+            JSONArray jsonArrayPlanta = jObjPlanta.getJSONArray("planta");
+
+            PlantaCabecDAO plantaCabecDAO = new PlantaCabecDAO();
+            plantaCabecDAO.atualizarPlanta(jsonArrayPlanta);
+
+            CabecDAO cabecDAO = new CabecDAO();
+
+            for (int i = 0; i < jsonArrayCabec.length(); i++) {
+
+                if(plantaCabecDAO.verPlantaFechadaCabec(cabecDAO.getCabec(jsonArrayCabec.getJSONObject(i)).getIdCabec())
+                        && (cabecDAO.getCabec(jsonArrayCabec.getJSONObject(i)).getStatusCabec() == 2L)){
+
+                    RespItemDAO respItemDAO = new RespItemDAO();
+                    respItemDAO.deleteItemCabec(cabecDAO.getCabec(jsonArrayCabec.getJSONObject(i)).getIdCabec());
+
+                    plantaCabecDAO.deletePlantaCabec(cabecDAO.getCabec(jsonArrayCabec.getJSONObject(i)).getIdCabec());
+
+                    cabecDAO.deleteCabec(cabecDAO.getCabec(jsonArrayCabec.getJSONObject(i)));
+
+                }
+
+            }
+
+        }
+        catch(Exception e){
+        }
 
     }
 

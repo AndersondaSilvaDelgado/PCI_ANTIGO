@@ -11,7 +11,7 @@ public class ItemDAO {
 
     public List<ItemBean> itemList(){
         ItemBean itemBean = new ItemBean();
-        return itemBean.all();
+        return itemBean.orderBy("idPlantaItem", true);
     }
 
     public List<ItemBean> itemList(Long idPlantaItem){

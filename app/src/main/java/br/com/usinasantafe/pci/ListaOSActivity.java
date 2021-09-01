@@ -43,6 +43,7 @@ public class ListaOSActivity extends ActivityGeneric {
 
         }
 
+        pciContext.getCheckListCTR().deleteCheckListAberta();
         osCabList = pciContext.getCheckListCTR().osList();
 
         AdapterListOS adapterListOS = new AdapterListOS(this, osCabList);

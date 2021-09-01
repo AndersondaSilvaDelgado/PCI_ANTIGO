@@ -41,8 +41,6 @@ public class ListaPlantaActivity extends ActivityGeneric {
 
         pciContext = (PCIContext) getApplication();
 
-        teste();
-
         FuncBean funcBean = pciContext.getCheckListCTR().getFunc();
         textViewAuditor.setText(funcBean.getMatricFunc() + " - " + funcBean.getNomeFunc());
 
@@ -85,8 +83,8 @@ public class ListaPlantaActivity extends ActivityGeneric {
                 progressBar.setMessage("ENVIANDO DADOS...");
                 progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                 progressBar.show();
-                EnvioDadosServ.getInstance().envioDadosPrinc(ListaPlantaActivity.this, MenuInicialActivity.class, progressBar);
 
+                EnvioDadosServ.getInstance().envioDadosPrinc(ListaPlantaActivity.this, MenuInicialActivity.class, progressBar);
 
             }
             else{
@@ -104,8 +102,6 @@ public class ListaPlantaActivity extends ActivityGeneric {
                 alerta.show();
 
             }
-
-
 
 //                if (pciContext.getCabecTO().getStatusCabec() == 0) {
 //
@@ -280,26 +276,6 @@ public class ListaPlantaActivity extends ActivityGeneric {
     public void onBackPressed()  {
     }
 
-    public void teste() {
 
-        CabecBean cabecBean = new CabecBean();
-        List cabecList = cabecBean.all();
-
-        for (int i = 0; i < cabecList.size(); i++) {
-
-            cabecBean = (CabecBean) cabecList.get(i);
-            Log.i("PCI", "CABEC");
-            Log.i("PCI", "idCabec = " + cabecBean.getIdCabec());
-            Log.i("PCI", "idExtCabec = " + cabecBean.getIdExtCabec());
-            Log.i("PCI", "osCabec = " + cabecBean.getIdOSCabec());
-            Log.i("PCI", "idFuncCabec = " + cabecBean.getIdFuncCabec());
-            Log.i("PCI", "dataCabec = " + cabecBean.getDataCabec());
-            Log.i("PCI", "statusCabec = " + cabecBean.getStatusCabec());
-            Log.i("PCI", "statusApontCabec = " + cabecBean.getStatusApontCabec());
-
-
-        }
-
-    }
 
 }

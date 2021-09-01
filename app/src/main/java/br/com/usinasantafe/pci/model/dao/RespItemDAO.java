@@ -41,6 +41,11 @@ public class RespItemDAO {
         return respItemBean.in("idPlantaCabecItem", idPlantaCabecList);
     }
 
+    public List getListRespItem(Long idPlantaCabec){
+        RespItemBean respItemBean = new RespItemBean();
+        return respItemBean.get("idPlantaCabecItem", idPlantaCabec);
+    }
+
     public RespItemBean getRespItem(Long idCabec, Long idItem){
 
         ArrayList pesqArrayList = new ArrayList();

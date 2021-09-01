@@ -52,24 +52,24 @@ public class EnvioDadosServ {
 			conHttpPostGenerico.setParametrosPost(parametrosPost);
 			conHttpPostGenerico.execute(url);
 		}
+		else{
+			falhaEnvio();
+		}
 
 	}
-
-	public boolean verDadosEnvio(){
-		CheckListCTR checkListCTR = new CheckListCTR();
-		return checkListCTR.verDadosEnvio();
-	}
-
 
     public void envioDadosPrinc(Context telaAtual, Class telaProx, ProgressDialog progressDialog) {
         this.telaAtual = telaAtual;
         this.telaProx = telaProx;
         this.progressDialog = progressDialog;
-		if (verDadosEnvio()) {
-			enviarDados();
-		}
-
+		enviarDados();
     }
+
+	public void recDados(String result){
+		CheckListCTR checkListCTR = new CheckListCTR();
+		checkListCTR.recDados(result);
+		msgEnvio();
+	}
 
     public void msgEnvio(){
 
@@ -92,8 +92,18 @@ public class EnvioDadosServ {
 	public void falhaEnvio() {
 
 		progressDialog.dismiss();
-		Intent it = new Intent(telaAtual, telaProx);
-		telaAtual.startActivity(it);
+		AlertDialog.Builder alerta = new AlertDialog.Builder(this.telaAtual);
+		alerta.setTitle("ATENCAO");
+		alerta.setMessage("FALHA NO ENVIO DE DADOS! POR FAVOR, TENTE REENVIAR NOVAMENTE OS DADOS.");
+		alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				Intent it = new Intent(telaAtual, telaProx);
+				telaAtual.startActivity(it);
+			}
+		});
+
+		alerta.show();
 
 	}
 

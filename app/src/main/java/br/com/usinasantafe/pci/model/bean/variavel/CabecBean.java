@@ -16,8 +16,6 @@ public class CabecBean extends Entidade {
     @DatabaseField(generatedId=true)
     private Long idCabec;
     @DatabaseField
-    private Long idExtCabec;
-    @DatabaseField
     private Long idOSCabec;
     @DatabaseField
     private Long idOficSecaoCabec;
@@ -75,14 +73,6 @@ public class CabecBean extends Entidade {
 
     public void setStatusCabec(Long statusCabec) {
         this.statusCabec = statusCabec;
-    }
-
-    public Long getIdExtCabec() {
-        return idExtCabec;
-    }
-
-    public void setIdExtCabec(Long idExtCabec) {
-        this.idExtCabec = idExtCabec;
     }
 
     public Long getStatusApontCabec() {

@@ -1,5 +1,12 @@
 package br.com.usinasantafe.pci.model.dao;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,7 +58,7 @@ public class PlantaCabecDAO {
     }
 
     public boolean verPlantaAberto(Long idCabec){
-        ArrayList<PlantaCabecBean> plantaCabecArrayList = plantaCabecArrayList(idCabec);
+        ArrayList<PlantaCabecBean> plantaCabecArrayList = plantaCabecAbertaArrayList(idCabec);
         boolean ret = (plantaCabecArrayList.size() > 0);
         plantaCabecArrayList.clear();
         return ret;
@@ -71,6 +78,20 @@ public class PlantaCabecDAO {
 
     }
 
+    public boolean verPlantaFechadaCabec(Long idCabec){
+
+        List<PlantaCabecBean> plantaList = plantaCabecList(idCabec);
+        boolean ret = true;
+        for(PlantaCabecBean plantaCabecBean : plantaList){
+            if(plantaCabecBean.getStatusPlantaCabec() < 4){
+                ret = false;
+            }
+        }
+        plantaList.clear();
+        return ret;
+
+    }
+
     public boolean verPlantaEnvio(){
 
         List<PlantaCabecBean> plantaCabecList = plantaCabecEnvioList();
@@ -86,7 +107,7 @@ public class PlantaCabecDAO {
 
         ArrayList<Long> idCabecPlantaList = new ArrayList<>();
         for (int i = 0; i < plantaCabecList.size(); i++) {
-            PlantaCabecBean plantaCabecBean = (PlantaCabecBean) plantaCabecList.get(i);
+            PlantaCabecBean plantaCabecBean = plantaCabecList.get(i);
             idCabecPlantaList.add(plantaCabecBean.getIdCabec());
         }
 
@@ -102,7 +123,7 @@ public class PlantaCabecDAO {
 
         ArrayList<Long> idPlantaCabecList = new ArrayList<>();
         for (int i = 0; i < plantaCabecList.size(); i++) {
-            PlantaCabecBean plantaCabecBean = (PlantaCabecBean) plantaCabecList.get(i);
+            PlantaCabecBean plantaCabecBean = plantaCabecList.get(i);
             idPlantaCabecList.add(plantaCabecBean.getIdPlantaCabec());
         }
 
@@ -112,16 +133,38 @@ public class PlantaCabecDAO {
 
     }
 
+    public void atualizarPlanta(JSONArray jsonArrayPlanta){
+
+        try{
+
+            for (int i = 0; i < jsonArrayPlanta.length(); i++) {
+
+                JSONObject objPlanta = jsonArrayPlanta.getJSONObject(i);
+                Gson gsonPlanta = new Gson();
+                PlantaCabecBean plantaCabecBean = gsonPlanta.fromJson(objPlanta.toString(), PlantaCabecBean.class);
+
+                List<PlantaCabecBean> plantaCabecList = plantaCabecBean.get("idPlantaCabec", plantaCabecBean.getIdPlantaCabec());
+                PlantaCabecBean plantaCabecBD = (PlantaCabecBean) plantaCabecList.get(0);
+                plantaCabecList.clear();
+
+                plantaCabecBD.setStatusPlantaCabec(4L);
+                plantaCabecBD.update();
+
+            }
+
+        }
+        catch(Exception e){
+        }
+
+    }
+
     public ArrayList<Long> idPlantaCabecAbertaList(Long idCabec){
 
-        List<PlantaCabecBean> plantaCabecList = plantaCabecList(idCabec);
+        ArrayList<PlantaCabecBean> plantaCabecList = plantaCabecAbertaArrayList(idCabec);
 
         ArrayList<Long> idPlantaCabecList = new ArrayList<>();
-        for (int i = 0; i < plantaCabecList.size(); i++) {
-            PlantaCabecBean plantaCabecBean = plantaCabecList.get(i);
-            if(plantaCabecBean.getStatusPlantaCabec() < 2) {
-                idPlantaCabecList.add(plantaCabecBean.getIdPlantaCabec());
-            }
+        for (PlantaCabecBean plantaCabecBean : plantaCabecList) {
+            idPlantaCabecList.add(plantaCabecBean.getIdPlantaCabec());
         }
 
         plantaCabecList.clear();
@@ -160,21 +203,23 @@ public class PlantaCabecDAO {
     }
 
     public void deletePlantaCabecAberto(Long idCabec){
-        List<PlantaCabecBean> plantaCabecList = plantaCabecList(idCabec);
+        ArrayList<PlantaCabecBean> plantaCabecList = plantaCabecAbertaArrayList(idCabec);
         for(int i = 0; i < plantaCabecList.size(); i++){
             PlantaCabecBean plantaCabecBean = (PlantaCabecBean) plantaCabecList.get(i);
             plantaCabecBean.delete();
         }
+        plantaCabecList.clear();
     }
 
-    public ArrayList<PlantaCabecBean> plantaCabecArrayList(Long idCabec){
+    public ArrayList<PlantaCabecBean> plantaCabecAbertaArrayList(Long idCabec){
         ArrayList<PlantaCabecBean> plantaCabecArrayList = new ArrayList<>();
         List<PlantaCabecBean> plantaCabecList = plantaCabecList(idCabec);
         for (PlantaCabecBean plantaCabecBean : plantaCabecList) {
-            if(plantaCabecBean.getStatusPlantaCabec() < 3){
+            if(plantaCabecBean.getStatusPlantaCabec() <= 2){
                 plantaCabecArrayList.add(plantaCabecBean);
             }
         }
+        plantaCabecList.clear();
         return plantaCabecArrayList;
     }
 
@@ -208,6 +253,25 @@ public class PlantaCabecDAO {
     public List<PlantaCabecBean> plantaCabecList(Long idCabec){
         PlantaCabecBean plantaCabecBean = new PlantaCabecBean();
         return plantaCabecBean.get("idCabec", idCabec);
+    }
+
+    public String dadosEnvioPlantaCabec(List plantaCabecList){
+
+        JsonArray jsonArrayPlantaCabec = new JsonArray();
+
+        for (int i = 0; i < plantaCabecList.size(); i++) {
+            PlantaCabecBean plantaCabecBean = (PlantaCabecBean) plantaCabecList.get(i);
+            Gson gson = new Gson();
+            jsonArrayPlantaCabec.add(gson.toJsonTree(plantaCabecBean, plantaCabecBean.getClass()));
+        }
+
+        plantaCabecList.clear();
+
+        JsonObject jsonPlanta = new JsonObject();
+        jsonPlanta.add("planta", jsonArrayPlantaCabec);
+
+        return jsonPlanta.toString();
+
     }
 
     private EspecificaPesquisa getPesqPlantaIdCabec(Long idCabec){

@@ -232,13 +232,6 @@ public class VerifDadosServ {
 
     }
 
-    public String manipLocalClasse(String classe){
-        if(classe.contains("TO")){
-            classe = urlsConexaoHttp.localPSTEstatica + classe;
-        }
-        return classe;
-    }
-
     public void verDados(String dado, String tipo, Context telaAtual, Class telaProx, ProgressDialog progressDialog) {
         verTerm = false;
         urlsConexaoHttp = new UrlsConexaoHttp();
