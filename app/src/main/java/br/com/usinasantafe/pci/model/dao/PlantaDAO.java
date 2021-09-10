@@ -14,14 +14,14 @@ public class PlantaDAO {
 
     public boolean verPlanta(ArrayList<Long> idPlantaList){
         PlantaBean plantaBean = new PlantaBean();
-        List plantaList = plantaBean.in("idPlanta", idPlantaList);
-        boolean ret = plantaList.size() == 0;
+        List<PlantaBean> plantaList = plantaBean.in("idPlanta", idPlantaList);
+        boolean ret = (plantaList.size() == 0);
         plantaList.clear();
         return ret;
     }
 
     public boolean verPlanta(Long idPlanta){
-        List plantaList = plantaList(idPlanta);
+        List<PlantaBean> plantaList = plantaList(idPlanta);
         boolean ret = plantaList.size() == 0;
         plantaList.clear();
         return ret;

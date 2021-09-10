@@ -1,4 +1,4 @@
-package br.com.usinasantafe.pci;
+package br.com.usinasantafe.pci.view;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,12 +6,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import br.com.usinasantafe.pci.PCIContext;
+import br.com.usinasantafe.pci.R;
 import br.com.usinasantafe.pci.model.bean.estatica.ComponenteBean;
-import br.com.usinasantafe.pci.util.Tempo;
-import br.com.usinasantafe.pci.model.pst.EspecificaPesquisa;
 
 public class QuestaoActivity extends ActivityGeneric {
 

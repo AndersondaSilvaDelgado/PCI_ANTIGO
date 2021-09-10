@@ -25,16 +25,7 @@ public class ReceberAlarme extends BroadcastReceiver {
 		}
 
 		Log.i("PCO", "DATA HORA = " + Tempo.getInstance().dataCHora());
-
 		teste();
-
-//		if (EnvioDadosServ.getInstance().verifDadosEnvio()) {
-//			EnvioDadosServ.getInstance().setStatusEnvio(1);
-//			EnvioDadosServ.getInstance().enviarDados(context);
-//		}
-//		else{
-//			EnvioDadosServ.getInstance().setStatusEnvio(3);
-//		}
 
 	}
 

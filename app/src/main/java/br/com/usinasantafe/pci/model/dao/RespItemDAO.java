@@ -36,15 +36,10 @@ public class RespItemDAO {
         respItemBean.update();
     }
 
-    public List getListRespItemEnvio(ArrayList<Long> idPlantaCabecList){
-        RespItemBean respItemBean = new RespItemBean();
-        return respItemBean.in("idPlantaCabecItem", idPlantaCabecList);
-    }
-
-    public List getListRespItem(Long idPlantaCabec){
-        RespItemBean respItemBean = new RespItemBean();
-        return respItemBean.get("idPlantaCabecItem", idPlantaCabec);
-    }
+//    public List<RespItemBean> respItemList(Long idPlantaCabec){
+//        RespItemBean respItemBean = new RespItemBean();
+//        return respItemBean.get("idPlantaCabecItem", idPlantaCabec);
+//    }
 
     public RespItemBean getRespItem(Long idCabec, Long idItem){
 
@@ -75,7 +70,7 @@ public class RespItemDAO {
     }
 
     public void deleteItemCabec(Long idCabec){
-        List<RespItemBean> respItemList = respItemList(idCabec);
+        List<RespItemBean> respItemList = respItemIdCabecList(idCabec);
         for(int i = 0; i < respItemList.size(); i++){
             RespItemBean respItemBean = respItemList.get(i);
             respItemBean.delete();
@@ -83,7 +78,7 @@ public class RespItemDAO {
     }
 
     public void deleteItemCabec(ArrayList<Long> idCabecList){
-        List<RespItemBean> respItemList = respItemList(idCabecList);
+        List<RespItemBean> respItemList = respItemIdCabecList(idCabecList);
         for(int i = 0; i < respItemList.size(); i++){
             RespItemBean respItemBean = respItemList.get(i);
             respItemBean.delete();
@@ -91,21 +86,26 @@ public class RespItemDAO {
     }
 
     public void deleteItemPlantaCabec(ArrayList<Long> idPlantaCabecList){
-        List<RespItemBean> respItemList = getListRespItemEnvio(idPlantaCabecList);
+        List<RespItemBean> respItemList = respItemIdPlantaCabecEnvio(idPlantaCabecList);
         for(int i = 0; i < respItemList.size(); i++){
             RespItemBean respItemBean = respItemList.get(i);
             respItemBean.delete();
         }
     }
 
-    public List respItemList(ArrayList<Long> idCabecList){
+    public List<RespItemBean> respItemIdCabecList(ArrayList<Long> idCabecList){
         RespItemBean respItemBean = new RespItemBean();
         return respItemBean.in("idCabRespItem", idCabecList);
     }
 
-    public List respItemList(Long idCabec){
+    public List<RespItemBean> respItemIdCabecList(Long idCabec){
         RespItemBean respItemBean = new RespItemBean();
         return respItemBean.get("idCabRespItem", idCabec);
+    }
+
+    public List<RespItemBean> respItemIdPlantaCabecEnvio(ArrayList<Long> idPlantaCabecList){
+        RespItemBean respItemBean = new RespItemBean();
+        return respItemBean.in("idPlantaCabecItem", idPlantaCabecList);
     }
 
     public String dadosEnvioRespItem(List respItemList){

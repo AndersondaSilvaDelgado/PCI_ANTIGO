@@ -1,4 +1,4 @@
-package br.com.usinasantafe.pci;
+package br.com.usinasantafe.pci.view;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,7 +9,8 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.usinasantafe.pci.model.bean.variavel.OSVarBean;
+import br.com.usinasantafe.pci.PCIContext;
+import br.com.usinasantafe.pci.R;
 
 public class ListaOSFeitaActivity extends ActivityGeneric {
 
@@ -25,18 +26,7 @@ public class ListaOSFeitaActivity extends ActivityGeneric {
 
         pciContext = (PCIContext) getApplication();
 
-        ArrayList<String> itens = new ArrayList<String>();
-
-        List<OSVarBean> osList = pciContext.getCheckListCTR().osVarList(pciContext.getIdFunc());
-
-        for(int i = 0; i < osList.size(); i++){
-            OSVarBean osVarBean = osList.get(i);
-            itens.add(osVarBean.getNroOS().toString());
-        }
-
-        osList.clear();
-
-        AdapterList adapterList = new AdapterList(this, itens);
+        AdapterList adapterList = new AdapterList(this, pciContext.getCheckListCTR().osFeitasList(pciContext.getIdFunc()));
         listViewOSFeita.setAdapter(adapterList);
 
         buttonRetOSFeita.setOnClickListener(new View.OnClickListener() {

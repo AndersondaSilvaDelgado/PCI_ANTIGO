@@ -19,7 +19,7 @@ public class PCIContext extends Application {
     private CheckListCTR checkListCTR;
     private Long idFunc;
 
-    public static String versaoAplic = "2.00";
+    public static String versaoAplic = "2.01";
 
     public PCIContext() {
     }

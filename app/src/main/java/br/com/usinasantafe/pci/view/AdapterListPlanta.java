@@ -1,4 +1,4 @@
-package br.com.usinasantafe.pci;
+package br.com.usinasantafe.pci.view;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -11,6 +11,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.usinasantafe.pci.R;
 import br.com.usinasantafe.pci.model.bean.estatica.PlantaBean;
 import br.com.usinasantafe.pci.model.bean.variavel.PlantaCabecBean;
 import br.com.usinasantafe.pci.model.dao.PlantaDAO;

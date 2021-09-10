@@ -2,12 +2,6 @@ package br.com.usinasantafe.pci.control;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.util.Log;
-
-import com.google.gson.Gson;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,10 +9,9 @@ import java.util.List;
 import br.com.usinasantafe.pci.model.bean.estatica.ComponenteBean;
 import br.com.usinasantafe.pci.model.bean.estatica.FuncBean;
 import br.com.usinasantafe.pci.model.bean.estatica.ItemBean;
-import br.com.usinasantafe.pci.model.bean.estatica.OSBaseBean;
+import br.com.usinasantafe.pci.model.bean.estatica.OSBean;
 import br.com.usinasantafe.pci.model.bean.estatica.ServicoBean;
 import br.com.usinasantafe.pci.model.bean.variavel.CabecBean;
-import br.com.usinasantafe.pci.model.bean.variavel.OSVarBean;
 import br.com.usinasantafe.pci.model.bean.variavel.PlantaCabecBean;
 import br.com.usinasantafe.pci.model.bean.variavel.RespItemBean;
 import br.com.usinasantafe.pci.model.dao.CabecDAO;
@@ -42,36 +35,44 @@ public class CheckListCTR {
 
     ////////////////////////////// SALVAR OU ATUALIZAR CABEC /////////////////////////////////////
 
-    public void salvarAtualCabec(OSBaseBean osBaseBean) {
+    public void salvarAtualCabec(OSBean osBean) {
 
         CabecDAO cabecDAO = new CabecDAO();
-        if(!cabecDAO.verCabecAbertoOS(osBaseBean)){
-            cabecDAO.salvarCabecAberto(cabecBean, osBaseBean);
+        if(!cabecDAO.verCabecAbertoOS(osBean)){
+            cabecDAO.salvarCabecAberto(cabecBean, osBean);
         }
 
-        cabecDAO.updStatusApont(osBaseBean);
+        cabecDAO.updStatusApont(osBean);
 
     }
 
-    public ArrayList retSalvarPlantaCabec(){
+    public ArrayList<PlantaCabecBean> retSalvarPlantaCabec(){
 
-        ArrayList plantaCabecArrayList = new ArrayList();
+        ArrayList<PlantaCabecBean> plantaCabecArrayList = new ArrayList();
         ItemDAO itemDAO = new ItemDAO();
         PlantaCabecDAO plantaCabecDAO = new PlantaCabecDAO();
         CabecDAO cabecDAO = new CabecDAO();
 
-        if(!plantaCabecDAO.verPlantaCabec(cabecDAO.getCabecApont().getIdCabec())){
-            List<ItemBean> itemList = itemDAO.itemList();
-            Long idPlanta = 0L;
-            for (ItemBean itemBean : itemList) {
-                if(!idPlanta.equals(itemBean.getIdPlantaItem())){
-                    plantaCabecArrayList.add(plantaCabecDAO.salvarPlantaCabec(itemBean.getIdPlantaItem(), cabecDAO.getCabecApont().getIdCabec()));
-                    idPlanta = itemBean.getIdPlantaItem();
+        if(plantaCabecDAO.verPlantaCabec(cabecDAO.getCabecApont().getIdCabec())){
+            plantaCabecArrayList = plantaCabecDAO.plantaCabecSemEnvioArrayList(cabecDAO.getCabecApont().getIdCabec());
+            ArrayList<Long> idPlantaOSArrayList = itemDAO.idPlantaArrayList(cabecDAO.getCabecApont().getIdOSCabec());
+            for(Long idPlantaOS : idPlantaOSArrayList){
+                boolean verPlanta = true;
+                for(PlantaCabecBean plantaCabecBean : plantaCabecArrayList){
+                    if(idPlantaOS.equals(plantaCabecBean.getIdPlanta())){
+                        verPlanta = false;
+                    }
+                }
+                if(verPlanta){
+                    plantaCabecArrayList.add(plantaCabecDAO.salvarPlantaCabec(idPlantaOS, cabecDAO.getCabecApont().getIdCabec()));
                 }
             }
         }
         else{
-            plantaCabecArrayList = plantaCabecDAO.plantaCabecAbertaArrayList(cabecDAO.getCabecApont().getIdCabec());
+            ArrayList<Long> idPlantaOSArrayList = itemDAO.idPlantaArrayList(cabecDAO.getCabecApont().getIdOSCabec());
+            for(Long idPlantaOS : idPlantaOSArrayList){
+                plantaCabecArrayList.add(plantaCabecDAO.salvarPlantaCabec(idPlantaOS, cabecDAO.getCabecApont().getIdCabec()));
+            }
         }
 
         return plantaCabecArrayList;
@@ -84,7 +85,7 @@ public class CheckListCTR {
         CabecDAO cabecDAO = new CabecDAO();
         PlantaCabecDAO plantaCabecDAO = new PlantaCabecDAO();
         if(verRespItem()){
-            respItemDAO.salvarRespItem(cabecDAO.getCabecApont().getIdCabec(), itemBean, plantaCabecDAO.getPlantaCabecApont().getIdPlantaCabec(), opcao, obs);
+            respItemDAO.salvarRespItem(cabecDAO.getCabecApont().getIdCabec(), itemBean, plantaCabecDAO.getPlantaCabecApont(cabecDAO.getCabecApont().getIdCabec()).getIdPlantaCabec(), opcao, obs);
         }
         else{
             respItemDAO.updRespItem(cabecDAO.getCabecApont().getIdCabec(), itemBean, opcao, obs);
@@ -96,20 +97,30 @@ public class CheckListCTR {
 
         PlantaCabecDAO plantaCabecDAO = new PlantaCabecDAO();
         CabecDAO cabecDAO = new CabecDAO();
-        plantaCabecDAO.updStatusApontPlanta(plantaCabecBean, cabecDAO.getCabecApont().getIdCabec());
+        plantaCabecDAO.updStatusApontPlantaCabec(plantaCabecBean, cabecDAO.getCabecApont().getIdCabec());
 
     }
 
     public void atualStatusEnvio(){
 
-        PlantaCabecDAO plantaCabecDAO = new PlantaCabecDAO();
-        plantaCabecDAO.updStatusPlantaFechadoEnvio();
         CabecDAO cabecDAO = new CabecDAO();
-        OSDAO osDAO = new OSDAO();
+
+        PlantaCabecDAO plantaCabecDAO = new PlantaCabecDAO();
+        plantaCabecDAO.updStatusPlantaFechadoEnvio(cabecDAO.getCabecApont().getIdCabec());
+
         if(!plantaCabecDAO.verPlantaAberto(cabecDAO.getCabecApont().getIdCabec())){
             cabecDAO.updStatusFechado(cabecDAO.getCabecApont());
-            osDAO.insertOSFeita(cabecDAO.getCabecApont());
         }
+
+    }
+
+    public void updStatusApont(){
+
+        CabecDAO cabecDAO = new CabecDAO();
+        cabecDAO.updStatusApont();
+
+        PlantaCabecDAO plantaCabecDAO = new PlantaCabecDAO();
+        plantaCabecDAO.updStatusApontPlanta();
 
     }
 
@@ -117,64 +128,58 @@ public class CheckListCTR {
 
     ////////////////////////////////// DELETAR DADOS  ////////////////////////////////////////////
 
-    public void deleteOSFeita(){
-        OSDAO osDAO = new OSDAO();
-        osDAO.deleteOSFeita();
-    }
+    public void deleteCabecResp(){
 
-    public void deleteCabecRespAntiga(){
         CabecDAO cabecDAO = new CabecDAO();
-        ArrayList<Long> idCabecList = cabecDAO.deleteCabec();
+        ArrayList<Long> idCabecList = cabecDAO.cabecDiaAnterior();
+
         if(idCabecList.size() > 0){
-            RespItemDAO respItemDAO = new RespItemDAO();
-            respItemDAO.deleteItemCabec(idCabecList);
+
+            for(Long idCabec : idCabecList){
+
+                PlantaCabecDAO plantaCabecDAO = new PlantaCabecDAO();
+                ArrayList<Long> idPlantaList = plantaCabecDAO.idPlantaCabecNaoEnvioList(idCabec);
+
+                if(idPlantaList.size() > 0){
+
+                    RespItemDAO respItemDAO = new RespItemDAO();
+                    respItemDAO.deleteItemPlantaCabec(idPlantaList);
+
+                    plantaCabecDAO.deletePlanta(idPlantaList);
+
+                }
+
+                if(plantaCabecDAO.verPlantaEnvio(idCabec)){
+                    cabecDAO.updStatusFechado(idCabec);
+                }
+                else{
+                    cabecDAO.deleteCabec(idCabec);
+                }
+
+            }
+
         }
+
     }
 
-    public void deleteCheckListApont(){
+    public void delCheckListApont(){
 
         CabecDAO cabecDAO = new CabecDAO();
         PlantaCabecDAO plantaCabecDAO = new PlantaCabecDAO();
-        RespItemDAO respItemDAO = new RespItemDAO();
 
-        CabecBean cabecBean = cabecDAO.getCabecApont();
+        ArrayList<Long> idPlantaList = plantaCabecDAO.idPlantaCabecSemEnvioArrayList(cabecDAO.getCabecApont().getIdCabec());
 
-        plantaCabecDAO.deletePlantaCabec(cabecBean.getIdCabec());
-        respItemDAO.deleteItemCabec(cabecBean.getIdCabec());
-        cabecDAO.deleteCabec(cabecBean);
+        if(idPlantaList.size() > 0){
 
-    }
+            RespItemDAO respItemDAO = new RespItemDAO();
+            respItemDAO.deleteItemPlantaCabec(idPlantaList);
 
-    public void deleteCheckListAberta(){
+            plantaCabecDAO.deletePlanta(idPlantaList);
 
-        OSDAO osDAO = new OSDAO();
-        List<OSBaseBean> osBaseList = osDAO.osBaseList();
+        }
 
-        CabecDAO cabecDAO = new CabecDAO();
-        List<CabecBean> cabecList = cabecDAO.cabecAbertoOficSecaoList(cabecBean.getIdOficSecaoCabec());
-
-        for(CabecBean cabecBean : cabecList){
-            boolean ver = true;
-            for(OSBaseBean osBaseBean : osBaseList){
-                if(cabecBean.getIdOSCabec().equals(osBaseBean.getIdOS())){
-                    ver = false;
-                }
-            }
-            if(ver){
-                PlantaCabecDAO plantaCabecDAO = new PlantaCabecDAO();
-                ArrayList<Long> idPlantaCabecAbertaList = plantaCabecDAO.idPlantaCabecAbertaList(cabecBean.getIdCabec());
-                if(idPlantaCabecAbertaList.size() > 0){
-                    RespItemDAO respItemDAO = new RespItemDAO();
-                    respItemDAO.deleteItemPlantaCabec(idPlantaCabecAbertaList);
-                    plantaCabecDAO.deletePlantaCabecAberto(cabecBean.getIdCabec());
-                }
-                if(!plantaCabecDAO.verPlantaCabecFechada(cabecBean.getIdCabec())){
-                    cabecDAO.deleteCabec(cabecBean);
-                }
-                else{
-                    cabecDAO.updStatusFechado(cabecBean);
-                }
-            }
+        if(!plantaCabecDAO.verPlantaEnvio(cabecDAO.getCabecApont().getIdCabec())){
+            cabecDAO.deleteCabec(cabecDAO.getCabecApont().getIdCabec());
         }
 
     }
@@ -205,14 +210,13 @@ public class CheckListCTR {
     public boolean verPlantaEnvio(){
         CabecDAO cabecDAO = new CabecDAO();
         PlantaCabecDAO plantaCabecDAO = new PlantaCabecDAO();
-        return plantaCabecDAO.verPlantaEnvio(cabecDAO.getCabecApont().getIdCabec());
+        return plantaCabecDAO.verPlantaTerminada(cabecDAO.getCabecApont().getIdCabec());
     }
 
     public boolean verPlanta(ArrayList<ItemBean> itemList){
         boolean verPlanta = false;
         PlantaDAO plantaDAO = new PlantaDAO();
-        for(int i = 0; i < itemList.size(); i++){
-            ItemBean itemBean = (ItemBean) itemList.get(i);
+        for(ItemBean itemBean : itemList){
             verPlanta = plantaDAO.verPlanta(itemBean.getIdPlantaItem());
         }
         return verPlanta;
@@ -234,19 +238,9 @@ public class CheckListCTR {
         return respItemDAO.verRespItem(cabecDAO.getCabecApont().getIdCabec(), itemBean.getIdItem());
     }
 
-    public boolean verServico(Long idServico){
-        ServicoDAO servicoDAO = new ServicoDAO();
-        return servicoDAO.verServico(idServico);
-    }
-
     public boolean verComponente(Long idComponente){
         ComponenteDAO componenteDAO = new ComponenteDAO();
         return componenteDAO.verComponente(idComponente);
-    }
-
-    public boolean verOSFunc(Long idFunc){
-        OSDAO osDAO = new OSDAO();
-        return osDAO.verOSFunc(idFunc);
     }
 
     public boolean verDadosEnvio(){
@@ -254,9 +248,22 @@ public class CheckListCTR {
         return plantaCabecDAO.verPlantaEnvio();
     }
 
+    public boolean verCabecFechado(Long idFunc){
+        CabecDAO cabecDAO = new CabecDAO();
+        return cabecDAO.verCabecFechado(idFunc);
+    }
+
     ///////////////////////////////////////////////////////////////////////////////////////////////
 
     ////////////////////////////// GET CAMPOS /////////////////////////////////////
+
+    public CabecBean getCabecBean() {
+        return cabecBean;
+    }
+
+    public ItemBean getItemBean() {
+        return itemBean;
+    }
 
     public ServicoBean getServico(Long idServico){
         ServicoDAO servicoDAO = new ServicoDAO();
@@ -274,10 +281,6 @@ public class CheckListCTR {
         return respItemDAO.getRespItem(cabecDAO.getCabecApont().getIdCabec(), itemBean.getIdItem());
     }
 
-    public ItemBean getItemBean() {
-        return itemBean;
-    }
-
     public FuncBean getFunc(Long matricFunc){
         FuncDAO funcDAO = new FuncDAO();
         return funcDAO.getMatricFunc(matricFunc);
@@ -289,77 +292,77 @@ public class CheckListCTR {
         return funcDAO.getIdFunc(cabecDAO.getCabecApont().getIdFuncCabec());
     }
 
-    public OSBaseBean getOS(){
+    public OSBean getOS(){
         CabecDAO cabecDAO = new CabecDAO();
         OSDAO osDAO = new OSDAO();
         return osDAO.getOS(cabecDAO.getCabecApont().getIdOSCabec());
     }
 
-    public CabecBean getCabecBean() {
-        return cabecBean;
-    }
-
-    public List<OSVarBean> osVarList(Long idFunc){
-        OSDAO osDAO = new OSDAO();
-        return osDAO.osVarList(idFunc);
-    }
-
-    public ArrayList<OSBaseBean> osList(){
+    public ArrayList<OSBean> osList(){
         CabecDAO cabecDAO = new CabecDAO();
         OSDAO osDAO = new OSDAO();
         List<CabecBean> cabecAbertoList = cabecDAO.cabecAbertoList();
-        List<OSBaseBean> osBaseList = osDAO.osBaseList();
-        List<OSVarBean> osVarList = osDAO.osVarList();
-        ArrayList osCabList = new ArrayList();
+        List<CabecBean> cabecFechadoList = cabecDAO.cabecFechadoList();
+        List<OSBean> osList = osDAO.osList();
+        ArrayList retOSList = new ArrayList();
         ArrayList<Long> qtdeDiasList = new ArrayList<Long>();
         if(cabecAbertoList.size() > 0){
             for(CabecBean cabecBean : cabecAbertoList){
-                for(OSBaseBean osBaseBean : osBaseList){
-                    if(cabecBean.getIdOSCabec().equals(osBaseBean.getIdOS())){
-                        osCabList.add(osBaseBean);
-                        qtdeDiasList.add(osBaseBean.getQtdeDiaOS());
+                for(OSBean osBean : osList){
+                    if(cabecBean.getIdOSCabec().equals(osBean.getIdOS())){
+                        retOSList.add(osBean);
+                        qtdeDiasList.add(osBean.getQtdeDiaOS());
                     }
                 }
             }
         }
-        for(OSBaseBean osBaseBean : osBaseList){
+        cabecAbertoList.clear();
+        for(OSBean osBean : osList){
             boolean verOS = true;
             for (Long qtdeDias : qtdeDiasList) {
-                if(osBaseBean.getQtdeDiaOS() == qtdeDias){
+                if(osBean.getQtdeDiaOS() == qtdeDias){
                     verOS = false;
                 }
             }
-            for (OSVarBean osVarBean : osVarList) {
-                if(osBaseBean.getIdOS() == osVarBean.getNroOS()){
+            for (CabecBean cabecBean : cabecFechadoList) {
+                if(osBean.getIdOS() == cabecBean.getIdOSCabec()){
                     verOS = false;
                 }
             }
             if(verOS){
-                osCabList.add(osBaseBean);
+                retOSList.add(osBean);
             }
         }
-        return osCabList;
+        return retOSList;
+    }
+
+    public ArrayList<String> osFeitasList(Long idFunc){
+        CabecDAO cabecDAO = new CabecDAO();
+        List<CabecBean> cabecList = cabecDAO.cabecFechadoList(idFunc);
+        ArrayList<String> osList = new ArrayList();
+        for(CabecBean cabecBean : cabecList){
+            OSDAO osDAO = new OSDAO();
+            osList.add(osDAO.getOS(cabecBean.getIdOSCabec()).getNroOS().toString());
+        }
+        return osList;
     }
 
     public ArrayList<ItemBean> getItemArrayList(){
 
         ArrayList<ItemBean> itemArrayList = new ArrayList<>();
 
-        PlantaCabecDAO plantaCabecDAO = new PlantaCabecDAO();
-        PlantaCabecBean plantaCabecBean = plantaCabecDAO.getPlantaCabecApont();
-
-        ItemDAO itemDAO = new ItemDAO();
-        List itemList = itemDAO.itemList(plantaCabecBean.getIdPlanta());
-
-        RespItemDAO respItemDAO = new RespItemDAO();
         CabecDAO cabecDAO = new CabecDAO();
-        List respItemList = respItemDAO.respItemList(cabecDAO.getCabecApont().getIdCabec());
+        PlantaCabecDAO plantaCabecDAO = new PlantaCabecDAO();
+        ItemDAO itemDAO = new ItemDAO();
+        RespItemDAO respItemDAO = new RespItemDAO();
 
-        for(int i = 0; i < itemList.size(); i++){
+        PlantaCabecBean plantaCabecBean = plantaCabecDAO.getPlantaCabecApont(cabecDAO.getCabecApont().getIdCabec());
+        List<ItemBean> itemList = itemDAO.itemList(plantaCabecBean.getIdPlanta());
+        List<RespItemBean> respItemList = respItemDAO.respItemIdCabecList(cabecDAO.getCabecApont().getIdCabec());
+
+        for(ItemBean itemBean : itemList){
             boolean ver = true;
-            ItemBean itemBean = (ItemBean) itemList.get(i);
-            for (int j = 0; j < respItemList.size(); j++) {
-                RespItemBean respItemBean = (RespItemBean) respItemList.get(j);
+            for (RespItemBean respItemBean : respItemList) {
                 if(itemBean.getIdItem().equals(respItemBean.getIdItOsMecanRespItem())){
                     ver = false;
                 }
@@ -374,11 +377,9 @@ public class CheckListCTR {
             plantaCabecDAO.updStatusPlantaFinalizar(plantaCabecBean);
         }
 
-        for(int i = 0; i < itemList.size(); i++){
+        for(ItemBean itemBean : itemList){
             boolean ver = false;
-            ItemBean itemBean = (ItemBean) itemList.get(i);
-            for (int j = 0; j < respItemList.size(); j++) {
-                RespItemBean respItemBean = (RespItemBean) respItemList.get(j);
+            for (RespItemBean respItemBean : respItemList) {
                 if(itemBean.getIdItem().equals(respItemBean.getIdItOsMecanRespItem())){
                     ver = true;
                     if(respItemBean.getOpcaoRespItem() == 2L){
@@ -400,7 +401,7 @@ public class CheckListCTR {
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
 
-    ////////////////////////////// SETAR CAMPOS /////////////////////////////////////
+    ////////////////////////////// SETAR CAMPOS //////////////////////////////////////////////////
 
     public void setCabecBean(CabecBean cabecBean) {
         this.cabecBean = cabecBean;
@@ -448,7 +449,7 @@ public class CheckListCTR {
         CabecDAO cabecDAO = new CabecDAO();
 
         ArrayList<Long> idCabecList = plantaCabecDAO.idCabecPlantaEnvioList();
-        return cabecDAO.cabecEnvioList(idCabecList).size() + 1;
+        return cabecDAO.cabecList(idCabecList).size() + 1;
 
     }
 
@@ -459,10 +460,10 @@ public class CheckListCTR {
         RespItemDAO respItemDAO = new RespItemDAO();
 
         ArrayList<Long> idCabecList = plantaCabecDAO.idCabecPlantaEnvioList();
-        String cabec = cabecDAO.dadosEnvioCabec(cabecDAO.cabecEnvioList(idCabecList));
+        String cabec = cabecDAO.dadosEnvioCabec(cabecDAO.cabecList(idCabecList));
 
         ArrayList<Long> idPlantaCabecList = plantaCabecDAO.idPlantaCabecEnvioList();
-        String item = respItemDAO.dadosEnvioRespItem(respItemDAO.getListRespItemEnvio(idPlantaCabecList));
+        String item = respItemDAO.dadosEnvioRespItem(respItemDAO.respItemIdPlantaCabecEnvio(idPlantaCabecList));
 
         String planta = plantaCabecDAO.dadosEnvioPlantaCabec(plantaCabecDAO.plantaCabecEnvioList());
 
@@ -477,35 +478,11 @@ public class CheckListCTR {
             int pos1 = retorno.indexOf("_") + 1;
             int pos2 = retorno.indexOf("#") + 1;
 
-            String objPrinc = retorno.substring(pos1, pos2);
             String objSeg = retorno.substring(pos2);
 
-            JSONObject jObjCabec = new JSONObject(objPrinc);
-            JSONArray jsonArrayCabec = jObjCabec.getJSONArray("cabecalho");
-
-            JSONObject jObjPlanta = new JSONObject(objSeg);
-            JSONArray jsonArrayPlanta = jObjPlanta.getJSONArray("planta");
-
             PlantaCabecDAO plantaCabecDAO = new PlantaCabecDAO();
-            plantaCabecDAO.atualizarPlanta(jsonArrayPlanta);
+            plantaCabecDAO.updPlantaEnviada(objSeg);
 
-            CabecDAO cabecDAO = new CabecDAO();
-
-            for (int i = 0; i < jsonArrayCabec.length(); i++) {
-
-                if(plantaCabecDAO.verPlantaFechadaCabec(cabecDAO.getCabec(jsonArrayCabec.getJSONObject(i)).getIdCabec())
-                        && (cabecDAO.getCabec(jsonArrayCabec.getJSONObject(i)).getStatusCabec() == 2L)){
-
-                    RespItemDAO respItemDAO = new RespItemDAO();
-                    respItemDAO.deleteItemCabec(cabecDAO.getCabec(jsonArrayCabec.getJSONObject(i)).getIdCabec());
-
-                    plantaCabecDAO.deletePlantaCabec(cabecDAO.getCabec(jsonArrayCabec.getJSONObject(i)).getIdCabec());
-
-                    cabecDAO.deleteCabec(cabecDAO.getCabec(jsonArrayCabec.getJSONObject(i)));
-
-                }
-
-            }
 
         }
         catch(Exception e){

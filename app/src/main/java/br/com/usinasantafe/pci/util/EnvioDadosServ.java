@@ -20,7 +20,6 @@ public class EnvioDadosServ {
 	private Context telaAtual;
 	private Class telaProx;
 	private ProgressDialog progressDialog;
-	private PostCadGenerico postCadGenerico;
 	
 	public EnvioDadosServ() {
 	}

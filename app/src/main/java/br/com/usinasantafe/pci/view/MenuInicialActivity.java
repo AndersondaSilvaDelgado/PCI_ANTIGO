@@ -1,29 +1,26 @@
-package br.com.usinasantafe.pci;
+package br.com.usinasantafe.pci.view;
 
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlarmManager;
-import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.util.Log;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import java.util.ArrayList;
 import java.util.Calendar;
-
+import br.com.usinasantafe.pci.PCIContext;
+import br.com.usinasantafe.pci.R;
+import br.com.usinasantafe.pci.ReceberAlarme;
 import br.com.usinasantafe.pci.util.ConexaoWeb;
-import br.com.usinasantafe.pci.util.EnvioDadosServ;
 
 public class MenuInicialActivity extends ActivityGeneric {
 
@@ -64,9 +61,8 @@ public class MenuInicialActivity extends ActivityGeneric {
 
         }
 
-        pciContext.getCheckListCTR().deleteOSFeita();
-
-        pciContext.getCheckListCTR().deleteCabecRespAntiga();
+        pciContext.getCheckListCTR().deleteCabecResp();
+        pciContext.getCheckListCTR().updStatusApont();
 
         verifEnvio();
 

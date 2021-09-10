@@ -1,26 +1,25 @@
-package br.com.usinasantafe.pci;
+package br.com.usinasantafe.pci.view;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import br.com.usinasantafe.pci.model.bean.estatica.OSBaseBean;
-import br.com.usinasantafe.pci.model.bean.variavel.CabecBean;
+import br.com.usinasantafe.pci.PCIContext;
+import br.com.usinasantafe.pci.R;
+import br.com.usinasantafe.pci.model.bean.estatica.OSBean;
 import br.com.usinasantafe.pci.util.VerifDadosServ;
 
 public class ListaOSActivity extends ActivityGeneric {
 
     private PCIContext pciContext;
     private ProgressDialog progressBar;
-    private ArrayList<OSBaseBean> osCabList;
+    private ArrayList<OSBean> osCabList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +42,6 @@ public class ListaOSActivity extends ActivityGeneric {
 
         }
 
-        pciContext.getCheckListCTR().deleteCheckListAberta();
         osCabList = pciContext.getCheckListCTR().osList();
 
         AdapterListOS adapterListOS = new AdapterListOS(this, osCabList);
@@ -55,19 +53,17 @@ public class ListaOSActivity extends ActivityGeneric {
             public void onItemClick(AdapterView<?> l, View v, int position,
                                     long id) {
 
-                OSBaseBean osBaseBean = osCabList.get(position);
+                OSBean osBean = osCabList.get(position);
 
-                pciContext.getCheckListCTR().salvarAtualCabec(osBaseBean);
+                pciContext.getCheckListCTR().salvarAtualCabec(osBean);
 
                 progressBar = new ProgressDialog(v.getContext());
                 progressBar.setCancelable(true);
                 progressBar.setMessage("Pequisando Item...");
                 progressBar.show();
 
-                VerifDadosServ.getInstance().verDados(osBaseBean.getIdOS().toString(), "Item"
+                VerifDadosServ.getInstance().verDados(osBean.getIdOS().toString(), "Item"
                         ,   ListaOSActivity.this, ListaPlantaActivity.class, progressBar);
-
-                osCabList.clear();
 
             }
 

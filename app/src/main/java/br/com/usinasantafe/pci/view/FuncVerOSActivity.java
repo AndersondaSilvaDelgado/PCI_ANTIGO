@@ -1,4 +1,4 @@
-package br.com.usinasantafe.pci;
+package br.com.usinasantafe.pci.view;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
+import br.com.usinasantafe.pci.PCIContext;
+import br.com.usinasantafe.pci.R;
 
 public class FuncVerOSActivity extends ActivityGeneric {
 
@@ -32,9 +35,10 @@ public class FuncVerOSActivity extends ActivityGeneric {
 
                     if(pciContext.getCheckListCTR().verFunc(matricFunc)){
 
-                        if(pciContext.getCheckListCTR().verOSFunc(pciContext.getCheckListCTR().getFunc(matricFunc).getIdFunc())){
+                        if(pciContext.getCheckListCTR().verCabecFechado(pciContext.getCheckListCTR().getFunc(matricFunc).getIdFunc())){
 
                             pciContext.setIdFunc(pciContext.getCheckListCTR().getFunc(matricFunc).getIdFunc());
+
                             Intent it = new Intent(  FuncVerOSActivity.this, ListaOSFeitaActivity.class);
                             startActivity(it);
                             finish();

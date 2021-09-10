@@ -1,4 +1,4 @@
-package br.com.usinasantafe.pci;
+package br.com.usinasantafe.pci.view;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -11,10 +11,11 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import br.com.usinasantafe.pci.PCIContext;
+import br.com.usinasantafe.pci.R;
 import br.com.usinasantafe.pci.model.bean.estatica.FuncBean;
 import br.com.usinasantafe.pci.model.bean.estatica.ItemBean;
-import br.com.usinasantafe.pci.model.bean.estatica.OSBaseBean;
-import br.com.usinasantafe.pci.util.VerifDadosServ;
+import br.com.usinasantafe.pci.model.bean.estatica.OSBean;
 
 public class ListaQuestaoActivity extends ActivityGeneric {
 
@@ -37,12 +38,13 @@ public class ListaQuestaoActivity extends ActivityGeneric {
         FuncBean funcBean = pciContext.getCheckListCTR().getFunc();
         textViewDadosAuditor.setText(funcBean.getMatricFunc() + " - " + funcBean.getNomeFunc());
 
-        OSBaseBean osBaseBean = pciContext.getCheckListCTR().getOS();
-        textViewDadosOS.setText("NRO OS: " + osBaseBean.getNroOS());
+        OSBean osBean = pciContext.getCheckListCTR().getOS();
+        textViewDadosOS.setText("NRO OS: " + osBean.getNroOS());
 
         itemArrayList = pciContext.getCheckListCTR().getItemArrayList();
 
         if(pciContext.getCheckListCTR().verPlanta(itemArrayList)){
+
             progressBar = new ProgressDialog( ListaQuestaoActivity.this);
             progressBar.setCancelable(true);
             progressBar.setMessage("Atualizando Plantas...");
@@ -53,6 +55,7 @@ public class ListaQuestaoActivity extends ActivityGeneric {
         }
 
         if(pciContext.getCheckListCTR().verServico(itemArrayList)){
+
             progressBar = new ProgressDialog( ListaQuestaoActivity.this);
             progressBar.setCancelable(true);
             progressBar.setMessage("Atualizando Itens...");

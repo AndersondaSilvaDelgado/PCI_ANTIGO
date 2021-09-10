@@ -1,4 +1,4 @@
-package br.com.usinasantafe.pci;
+package br.com.usinasantafe.pci.view;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -9,6 +9,8 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+
+import br.com.usinasantafe.pci.R;
 
 /**
  * Created by anderson on 19/10/2015.

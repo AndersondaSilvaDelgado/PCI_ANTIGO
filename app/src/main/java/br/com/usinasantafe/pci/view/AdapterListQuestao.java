@@ -1,4 +1,4 @@
-package br.com.usinasantafe.pci;
+package br.com.usinasantafe.pci.view;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import br.com.usinasantafe.pci.R;
 import br.com.usinasantafe.pci.model.bean.estatica.ComponenteBean;
 import br.com.usinasantafe.pci.model.bean.estatica.ItemBean;
 import br.com.usinasantafe.pci.model.dao.ComponenteDAO;

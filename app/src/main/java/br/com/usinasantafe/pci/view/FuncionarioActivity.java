@@ -1,4 +1,4 @@
-package br.com.usinasantafe.pci;
+package br.com.usinasantafe.pci.view;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import br.com.usinasantafe.pci.PCIContext;
+import br.com.usinasantafe.pci.R;
 import br.com.usinasantafe.pci.model.bean.estatica.FuncBean;
 import br.com.usinasantafe.pci.model.bean.variavel.CabecBean;
 import br.com.usinasantafe.pci.util.ConexaoWeb;
@@ -95,6 +97,7 @@ public class FuncionarioActivity extends ActivityGeneric {
                     if(pciContext.getCheckListCTR().verFunc(matricFunc)){
 
                         FuncBean funcBean = pciContext.getCheckListCTR().getFunc(matricFunc);
+
                         pciContext.getCheckListCTR().setCabecBean(new CabecBean());
                         pciContext.getCheckListCTR().getCabecBean().setIdFuncCabec(funcBean.getIdFunc());
                         pciContext.getCheckListCTR().getCabecBean().setIdOficSecaoCabec(funcBean.getIdOficSecaoFunc());

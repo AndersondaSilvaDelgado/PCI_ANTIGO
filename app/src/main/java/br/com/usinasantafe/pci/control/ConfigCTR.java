@@ -3,7 +3,7 @@ package br.com.usinasantafe.pci.control;
 import android.app.ProgressDialog;
 import android.content.Context;
 
-import br.com.usinasantafe.pci.MenuInicialActivity;
+import br.com.usinasantafe.pci.view.MenuInicialActivity;
 import br.com.usinasantafe.pci.model.bean.variavel.ConfigBean;
 import br.com.usinasantafe.pci.model.dao.ConfigDAO;
 import br.com.usinasantafe.pci.util.AtualDadosServ;

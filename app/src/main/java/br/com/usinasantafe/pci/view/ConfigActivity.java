@@ -1,4 +1,4 @@
-package br.com.usinasantafe.pci;
+package br.com.usinasantafe.pci.view;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -9,10 +9,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import java.util.List;
-
+import br.com.usinasantafe.pci.PCIContext;
+import br.com.usinasantafe.pci.R;
 import br.com.usinasantafe.pci.util.ConexaoWeb;
-import br.com.usinasantafe.pci.util.AtualDadosServ;
 
 public class ConfigActivity extends ActivityGeneric {
 

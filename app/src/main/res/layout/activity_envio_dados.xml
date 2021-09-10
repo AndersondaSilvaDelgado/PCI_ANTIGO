@@ -10,7 +10,7 @@
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
     android:paddingTop="10dp"
-    tools:context="br.com.usinasantafe.pci.EnvioDadosActivity">
+    tools:context="br.com.usinasantafe.pci.view.EnvioDadosActivity">
 
     <TextView
         android:id="@+id/textViewEnvioDados"

@@ -5,7 +5,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -18,7 +17,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-import br.com.usinasantafe.pci.MenuInicialActivity;
+import br.com.usinasantafe.pci.view.MenuInicialActivity;
 import br.com.usinasantafe.pci.control.ConfigCTR;
 import br.com.usinasantafe.pci.model.dao.OSDAO;
 import br.com.usinasantafe.pci.util.conHttp.PostVerGenerico;
@@ -90,7 +89,6 @@ public class VerifDadosServ {
                             genericRecordable.insert(gson.fromJson(objeto.toString(), classe), classe);
 
                         }
-
 
                         this.progressDialog.dismiss();
                         Intent it = new Intent(telaAtual, telaProx);
@@ -233,6 +231,7 @@ public class VerifDadosServ {
     }
 
     public void verDados(String dado, String tipo, Context telaAtual, Class telaProx, ProgressDialog progressDialog) {
+
         verTerm = false;
         urlsConexaoHttp = new UrlsConexaoHttp();
         this.telaAtual = telaAtual;
@@ -289,32 +288,6 @@ public class VerifDadosServ {
         postVerGenerico.setParametrosPost(parametrosPost);
         postVerGenerico.execute(url);
 
-    }
-
-    public void cancelVer() {
-        verTerm = true;
-        if (postVerGenerico.getStatus() == AsyncTask.Status.RUNNING) {
-            postVerGenerico.cancel(true);
-        }
-    }
-
-    public void pulaTelaSemTerm(){
-        this.progressDialog.dismiss();
-        Intent it = new Intent(telaAtual, telaProx);
-        telaAtual.startActivity(it);
-    }
-
-    public void msgSemTerm(String texto){
-        this.progressDialog.dismiss();
-        AlertDialog.Builder alerta = new AlertDialog.Builder(telaAtual);
-        alerta.setTitle("ATENÇÃO");
-        alerta.setMessage(texto);
-        alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-            }
-        });
-        alerta.show();
     }
 
     public void pulaTelaComTerm(){

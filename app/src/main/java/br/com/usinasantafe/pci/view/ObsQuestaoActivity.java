@@ -1,4 +1,4 @@
-package br.com.usinasantafe.pci;
+package br.com.usinasantafe.pci.view;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,11 +10,10 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import br.com.usinasantafe.pci.util.Tempo;
-import br.com.usinasantafe.pci.model.pst.EspecificaPesquisa;
+import br.com.usinasantafe.pci.PCIContext;
+import br.com.usinasantafe.pci.R;
 
 public class ObsQuestaoActivity extends ActivityGeneric {
 

@@ -17,7 +17,7 @@ public class PlantaCabecBean extends Entidade {
     @DatabaseField
     private Long idCabec;
     @DatabaseField
-    private Long statusPlantaCabec; //1 - Apontando; 2 - Terminada; 3 - Fechado por Envio; 4 - Enviado
+    private Long statusPlantaCabec; //1 - Apontando; 2 - Terminada; 3 - Fechado por Envio; 4 - Enviada
     @DatabaseField
     private Long statusApontPlanta;
 
